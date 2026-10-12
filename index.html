@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  
-<meta name="google-site-verification" content="A5L14MZh5M00I-QesauItDeNWaUh0W8idvNbkH21oNc" />
+  <meta name="google-site-verification" content="A5L14MZh5M00I-QesauItDeNWaUh0W8idvNbkH21oNc" />
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>QuickFix Services - Doorstep Home & Office Maintenance</title>
   <!-- Tailwind CSS & FontAwesome Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  
+  <!-- Firebase SDK (Compat) -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
   <style>
     @media print {
       body * { visibility: hidden !important; }
@@ -25,18 +28,16 @@
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-blue-600 selection:text-white pb-32">
 
-  <!-- 1. टॉप कॉन्टैक्ट बार (Top Contact Bar with Direct Call & Email) -->
+  <!-- 1. Top Announcement Bar -->
   <div class="bg-slate-900 text-slate-200 text-xs py-2 px-4 border-b border-slate-800">
     <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-2">
       <div class="flex flex-wrap items-center space-x-3 sm:space-x-5">
-        <!-- डायरेक्ट कॉलिंग नंबर लिंक -->
-        <a id="topbar-call-link" href="tel:9876543210" class="flex items-center space-x-1.5 hover:text-amber-400 font-bold transition group">
+        <a id="topbar-call-link" href="tel:8839832064" class="flex items-center space-x-1.5 hover:text-amber-400 font-bold transition group">
           <i class="fa-solid fa-phone text-emerald-400 text-[11px] group-hover:scale-110 transition"></i>
           <span class="text-[10px] text-slate-400">कॉल / Helpline:</span>
-          <span id="topbar-phone-display" class="font-mono text-white tracking-wide">9876543210</span>
+          <span id="topbar-phone-display" class="font-mono text-white tracking-wide">8839832064</span>
         </a>
         <span class="text-slate-700 hidden sm:inline">|</span>
-        <!-- डायरेक्ट ईमेल लिंक -->
         <a id="topbar-email-link" href="mailto:quickfix.indore@gmail.com" class="flex items-center space-x-1.5 hover:text-amber-400 font-medium transition group">
           <i class="fa-solid fa-envelope text-blue-400 text-[11px] group-hover:scale-110 transition"></i>
           <span class="text-[10px] text-slate-400 hidden xs:inline">ईमेल:</span>
@@ -53,10 +54,9 @@
     </div>
   </div>
 
-  <!-- 2. मुख्य हेडर (Header with Direct Call Button, Lang Switcher & Admin) -->
+  <!-- 2. Main Header -->
   <header class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
     <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-2">
-      <!-- ब्रांड लोगो व नाम -->
       <div class="flex items-center space-x-3">
         <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-md shadow-blue-200 shrink-0">
           <i class="fa-solid fa-screwdriver-wrench text-lg"></i>
@@ -67,24 +67,20 @@
         </div>
       </div>
 
-      <!-- हेडर बटन्स (नंबर लिखा हुआ और डायरेक्ट कॉल) -->
       <div class="flex items-center space-x-2">
-        <!-- भाषा बदलने का बटन -->
         <button type="button" onclick="toggleLanguage()" id="lang-toggle-btn" class="flex items-center space-x-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer shadow-sm">
           <i class="fa-solid fa-language text-blue-600 text-sm"></i>
           <span id="lang-toggle-label">English</span>
         </button>
 
-        <!-- डायरेक्ट कॉल बटन - नंबर भी दिखेगा और सीधा कॉल भी होगा -->
-        <a id="top-call-btn" href="tel:9876543210" class="inline-flex items-center space-x-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 px-3 py-1.5 rounded-xl text-xs font-bold transition shadow-sm">
+        <a id="top-call-btn" href="tel:8839832064" class="inline-flex items-center space-x-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 px-3 py-1.5 rounded-xl text-xs font-bold transition shadow-sm">
           <i class="fa-solid fa-phone text-emerald-600 text-sm"></i>
           <div class="text-left leading-none">
             <span class="text-[9px] text-emerald-600 uppercase font-bold block" id="t-call-label">कॉल करें</span>
-            <span id="header-phone-display" class="font-mono font-black text-xs text-emerald-950">9876543210</span>
+            <span id="header-phone-display" class="font-mono font-black text-xs text-emerald-950">8839832064</span>
           </div>
         </a>
         
-        <!-- एडमिन बटन -->
         <button type="button" onclick="openAdminModal()" class="flex items-center space-x-1.5 bg-slate-900 hover:bg-black text-white px-3.5 py-1.5 rounded-lg text-xs font-bold shadow transition cursor-pointer">
           <i class="fa-solid fa-shield-halved text-amber-400"></i>
           <span id="t-admin-btn">एडमिन</span>
@@ -93,7 +89,7 @@
     </div>
   </header>
 
-  <!-- 3. हीरो बैनर (Hero Section with Phone & Email Badges) -->
+  <!-- 3. Hero Section -->
   <section class="max-w-6xl mx-auto px-4 pt-8 pb-8 text-center md:text-left">
     <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
       <div class="md:col-span-7 space-y-4">
@@ -108,7 +104,6 @@
           कोई फर्जी वारंटी या छुपा टैक्स नहीं। काम पूरा होने के बाद आपके सामने लाइव टेस्टिंग होगी, तसल्ली होने पर ही पेमेंट करें।
         </p>
 
-        <!-- एक्शन बटन्स -->
         <div class="flex flex-wrap gap-3 pt-2 justify-center md:justify-start">
           <a href="#booking-section" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-3 rounded-xl shadow-lg shadow-blue-200 transition text-sm flex items-center space-x-2">
             <i class="fa-solid fa-calendar-check"></i>
@@ -120,20 +115,17 @@
           </a>
         </div>
 
-        <!-- होमपेज पर नंबर और ईमेल का डायरेक्ट संपर्क बॉक्स (Direct Contact Cards on Homepage) -->
         <div class="pt-3 grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-lg mx-auto md:mx-0">
-          <!-- डायरेक्ट कॉल कार्ड -->
-          <a id="hero-call-card" href="tel:9876543210" class="flex items-center space-x-3 bg-white border border-emerald-200 hover:border-emerald-500 hover:bg-emerald-50/60 p-3 rounded-2xl shadow-sm transition text-left group">
+          <a id="hero-call-card" href="tel:8839832064" class="flex items-center space-x-3 bg-white border border-emerald-200 hover:border-emerald-500 hover:bg-emerald-50/60 p-3 rounded-2xl shadow-sm transition text-left group">
             <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-lg shrink-0 group-hover:scale-105 transition">
               <i class="fa-solid fa-phone"></i>
             </div>
             <div>
               <p class="text-[10px] text-slate-400 font-bold uppercase" id="t-card-phone-lbl">सीधा कॉल करें (Click to Call):</p>
-              <p id="hero-phone-display" class="text-sm font-black text-slate-900 font-mono">+91 9876543210</p>
+              <p id="hero-phone-display" class="text-sm font-black text-slate-900 font-mono">+91 8839832064</p>
             </div>
           </a>
 
-          <!-- डायरेक्ट ईमेल कार्ड -->
           <a id="hero-email-card" href="mailto:quickfix.indore@gmail.com" class="flex items-center space-x-3 bg-white border border-blue-200 hover:border-blue-500 hover:bg-blue-50/60 p-3 rounded-2xl shadow-sm transition text-left group">
             <div class="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center text-lg shrink-0 group-hover:scale-105 transition">
               <i class="fa-solid fa-envelope"></i>
@@ -144,10 +136,8 @@
             </div>
           </a>
         </div>
-
       </div>
 
-      <!-- सेवा नियम बॉक्स -->
       <div class="md:col-span-5 bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100 p-6 rounded-3xl shadow-sm">
         <h3 id="t-rules-title" class="text-sm font-black text-slate-800 uppercase tracking-wider mb-4 flex items-center space-x-2">
           <i class="fa-solid fa-circle-check text-blue-600"></i>
@@ -171,7 +161,7 @@
     </div>
   </section>
 
-  <!-- 4. गतिशील सेवाएं ग्रिड (Dynamic Services Grid) -->
+  <!-- 4. Services Grid -->
   <section class="max-w-6xl mx-auto px-4 py-6">
     <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
       <div>
@@ -182,14 +172,10 @@
         <p id="t-services-subtitle" class="text-xs sm:text-sm text-slate-500 mt-1">प्रत्येक सेवा के तहत होने वाले सभी कार्यों का विवरण देखें व कार्ड पर क्लिक करके बुक करें</p>
       </div>
     </div>
-
-    <!-- Dynamic Container for Cards -->
-    <div id="dynamic-services-cards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      <!-- Injected dynamically via JS based on localStorage cfg.services -->
-    </div>
+    <div id="dynamic-services-cards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
   </section>
 
-  <!-- 5. बुकिंग फॉर्म (Booking Form with Landmark) -->
+  <!-- 5. Booking Form (Live GPS + Cloud Push) -->
   <section id="booking-section" class="max-w-4xl mx-auto px-4 py-6">
     <div class="bg-white rounded-3xl border border-slate-200 shadow-xl overflow-hidden">
       <div class="bg-slate-900 p-5 text-white flex items-center justify-between">
@@ -217,21 +203,24 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label id="t-label-service" class="block text-xs font-bold text-slate-700 uppercase mb-1">सर्विस चुनें *</label>
-            <select id="cust-service" onchange="updateEstimatedPrice()" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-600 focus:outline-none font-medium">
-              <!-- Dynamically populated options -->
-            </select>
+            <select id="cust-service" onchange="updateEstimatedPrice()" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-600 focus:outline-none font-medium"></select>
           </div>
           <div>
             <label id="t-label-time" class="block text-xs font-bold text-slate-700 uppercase mb-1">समय स्लॉट चुनें *</label>
-            <select id="cust-time" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-600 focus:outline-none">
-              <!-- Dynamically populated time options -->
-            </select>
+            <select id="cust-time" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-600 focus:outline-none"></select>
           </div>
         </div>
 
-        <!-- साइट का पता और लैंडमार्क -->
+        <!-- Address & GPS Auto-detect Box -->
         <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-3">
-          <span id="t-label-address" class="text-xs font-bold text-slate-600 uppercase tracking-wider block">काम का पता (Site Address)</span>
+          <div class="flex items-center justify-between">
+            <span id="t-label-address" class="text-xs font-bold text-slate-600 uppercase tracking-wider block">काम का पता (Site Address)</span>
+            <span id="gps-status-badge" class="text-[11px] font-bold text-blue-700 bg-blue-100 px-2.5 py-0.5 rounded-full flex items-center space-x-1">
+              <i class="fa-solid fa-location-crosshairs animate-pulse"></i>
+              <span>GPS ऑटो डिटेक्ट एक्टिव</span>
+            </span>
+          </div>
+
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <input type="text" id="cust-house" required placeholder="मकान / फ्लैट / दुकान नंबर" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm">
             <input type="text" id="cust-society" required placeholder="बिल्डिंग / सोसायटी / कॉलोनी का नाम" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm">
@@ -240,9 +229,12 @@
             <input type="text" id="cust-landmark" required placeholder="प्रसिद्ध लैंडमार्क (उदा. पानी की टंकी / मंदिर के पास) *" class="w-full px-3 py-2 bg-amber-50 border border-amber-200 rounded-lg text-sm focus:ring-1 focus:ring-amber-500 font-medium">
             <input type="text" id="cust-city" required placeholder="शहर एवं पिनकोड" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm">
           </div>
+          <p class="text-[11px] text-slate-500 italic flex items-center">
+            <i class="fa-solid fa-circle-info text-blue-500 mr-1.5"></i>
+            सबमिट करने पर आपके फोन/कंप्यूटर से सटीक लोकेशन डिटेक्ट होकर कारीगर को मैप रूट मिल जाएगा।
+          </p>
         </div>
 
-        <!-- शुरुआती सर्विस चार्ज व विजिट फीस पट्टी -->
         <div class="flex flex-wrap items-center justify-between p-4 bg-blue-50 border border-blue-100 rounded-2xl gap-2">
           <div>
             <span id="t-rate-label" class="text-xs text-blue-700 font-bold block">शुरुआती सर्विस चार्ज (Starting Rate):</span>
@@ -254,20 +246,18 @@
           </div>
         </div>
 
-        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-extrabold py-3.5 rounded-xl shadow-lg shadow-blue-200 transition text-base flex items-center justify-center space-x-2 cursor-pointer">
+        <button type="submit" id="submit-booking-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-extrabold py-3.5 rounded-xl shadow-lg shadow-blue-200 transition text-base flex items-center justify-center space-x-2 cursor-pointer">
           <i class="fa-solid fa-paper-plane"></i>
-          <span id="t-submit-btn">बुकिंग दर्ज करें</span>
+          <span id="t-submit-btn">बुकिंग दर्ज करें (GPS लोकेशन के साथ)</span>
         </button>
       </form>
     </div>
   </section>
 
-  <!-- 6. होमपेज फुटर (Comprehensive Homepage Footer with Live Contacts) -->
+  <!-- 6. Footer -->
   <footer class="bg-slate-900 text-white mt-16 border-t border-slate-800">
     <div class="max-w-6xl mx-auto px-4 py-12">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-        
-        <!-- कॉलम 1: कंपनी परिचय -->
         <div class="space-y-3 md:col-span-1">
           <div class="flex items-center space-x-2.5">
             <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white text-sm">
@@ -285,23 +275,19 @@
           </div>
         </div>
 
-        <!-- कॉलम 2: संपर्क विवरण (फ़ोन, ईमेल, व्हाट्सएप - सभी क्लिकेबल) -->
         <div class="space-y-3 md:col-span-2">
           <h5 class="text-xs font-black text-slate-200 uppercase tracking-wider mb-2">संपर्क सूत्र (Direct Contacts)</h5>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-            
-            <!-- सीधा कॉलिंग नंबर -->
-            <a id="footer-call-link" href="tel:9876543210" class="flex items-center space-x-3 p-3 bg-slate-800/80 hover:bg-slate-800 rounded-xl border border-slate-700/70 transition group">
+            <a id="footer-call-link" href="tel:8839832064" class="flex items-center space-x-3 p-3 bg-slate-800/80 hover:bg-slate-800 rounded-xl border border-slate-700/70 transition group">
               <div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-sm shrink-0 group-hover:scale-110 transition">
                 <i class="fa-solid fa-phone"></i>
               </div>
               <div>
                 <p class="text-[10px] text-slate-400 font-bold uppercase">डायरेक्ट कॉलिंग (Tap to Call)</p>
-                <p id="footer-phone-display" class="font-mono font-bold text-white text-sm">+91 9876543210</p>
+                <p id="footer-phone-display" class="font-mono font-bold text-white text-sm">+91 8839832064</p>
               </div>
             </a>
 
-            <!-- सीधा ईमेल लिंक -->
             <a id="footer-email-link" href="mailto:quickfix.indore@gmail.com" class="flex items-center space-x-3 p-3 bg-slate-800/80 hover:bg-slate-800 rounded-xl border border-slate-700/70 transition group">
               <div class="w-8 h-8 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center text-sm shrink-0 group-hover:scale-110 transition">
                 <i class="fa-solid fa-envelope"></i>
@@ -312,7 +298,6 @@
               </div>
             </a>
 
-            <!-- सीधा व्हाट्सएप लिंक -->
             <a id="footer-wa-link" href="#" target="_blank" class="flex items-center space-x-3 p-3 bg-slate-800/80 hover:bg-slate-800 rounded-xl border border-slate-700/70 transition group">
               <div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-sm shrink-0 group-hover:scale-110 transition">
                 <i class="fa-brands fa-whatsapp"></i>
@@ -323,7 +308,6 @@
               </div>
             </a>
 
-            <!-- ऑफिस पता -->
             <div class="flex items-center space-x-3 p-3 bg-slate-800/40 rounded-xl border border-slate-800">
               <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center text-sm shrink-0">
                 <i class="fa-solid fa-location-dot"></i>
@@ -333,11 +317,9 @@
                 <p id="footer-addr-display" class="text-xs text-slate-300">भंवरकुआं मेन रोड, इंदौर, म.प्र.</p>
               </div>
             </div>
-
           </div>
         </div>
 
-        <!-- कॉलम 3: कार्य समय व सुरक्षा -->
         <div class="space-y-3 text-xs md:col-span-1">
           <h5 class="text-xs font-black text-slate-200 uppercase tracking-wider mb-2">सेवा समय</h5>
           <p class="text-slate-400 leading-relaxed">
@@ -349,7 +331,6 @@
             100% वेरिफाइड एवं अनुभवी कारीगर
           </p>
         </div>
-
       </div>
 
       <div class="border-t border-slate-800 mt-8 pt-6 flex flex-wrap items-center justify-between text-xs text-slate-500 gap-2">
@@ -361,7 +342,7 @@
     </div>
   </footer>
 
-  <!-- बुकिंग सफलता मॉडल (100% Locked with Inline Style) -->
+  <!-- Booking Success Modal -->
   <div id="booking-success-modal" style="display: none;" onclick="if(event.target === this) closeSuccessModal()" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm items-center justify-center p-4">
     <div class="bg-white rounded-3xl max-w-md w-full p-6 text-center space-y-4 shadow-2xl relative">
       <button type="button" onclick="closeSuccessModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-lg cursor-pointer">
@@ -380,10 +361,10 @@
         <p><strong id="t-modal-lbl-cust">ग्राहक:</strong> <span id="modal-cust-name"></span></p>
         <p><strong id="t-modal-lbl-serv">सर्विस:</strong> <span id="modal-cust-service"></span></p>
         <p><strong id="t-modal-lbl-addr">पता:</strong> <span id="modal-cust-address"></span></p>
+        <p id="modal-gps-link-container" class="pt-1 text-blue-700 font-semibold"></p>
         <p class="text-amber-800 font-bold pt-1"><i class="fa-solid fa-info-circle mr-1"></i>विजिट चार्ज ₹500 कारीगर आने पर काम होने पर बिल में घट जाएगा।</p>
       </div>
 
-      <!-- UPI QR कोड -->
       <div class="p-3 bg-blue-50 border border-blue-100 rounded-2xl">
         <span id="t-modal-qr-title" class="text-xs font-bold text-blue-800 block mb-1.5">एडवांस या भुगतान के लिए UPI QR (वैकल्पिक)</span>
         <img id="modal-qr-img" src="" alt="UPI QR" class="w-32 h-32 mx-auto bg-white p-2 rounded-xl border border-blue-200 shadow-sm">
@@ -402,11 +383,9 @@
     </div>
   </div>
 
-  <!-- सुरक्षित एडमिन पैनल (100% Locked with Inline Style) -->
+  <!-- Admin Control Panel -->
   <div id="admin-modal" style="display: none;" onclick="if(event.target === this) closeAdminModal()" class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-md items-center justify-center p-3 sm:p-6 overflow-y-auto">
     <div class="bg-white rounded-3xl max-w-4xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden my-auto relative">
-      
-      <!-- एडमिन हेडर -->
       <div class="p-4 bg-slate-900 text-white flex items-center justify-between">
         <div class="flex items-center space-x-3">
           <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white">
@@ -414,7 +393,7 @@
           </div>
           <div>
             <h4 class="font-black text-sm sm:text-base">QuickFix Admin Control Panel</h4>
-            <p class="text-[10px] text-slate-400">Default Password: <span class="font-mono text-amber-300 font-bold">QF2026</span></p>
+            <p class="text-[10px] text-slate-400">Default Password: <span class="font-mono text-amber-300 font-bold">QF2026</span> | Master PIN: <span class="font-mono text-amber-300 font-bold">4589</span></p>
           </div>
         </div>
         <div class="flex items-center space-x-2">
@@ -428,14 +407,14 @@
         </div>
       </div>
 
-      <!-- एडमिन लॉगिन स्क्रीन -->
+      <!-- Admin Login Screen -->
       <div id="admin-login-screen" class="p-8 text-center max-w-sm mx-auto my-auto space-y-4">
         <div class="w-14 h-14 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto text-2xl shadow-inner">
           <i class="fa-solid fa-shield-halved"></i>
         </div>
         <div>
           <h5 class="text-lg font-black text-slate-800">Admin Login / एडमिन लॉगिन</h5>
-          <p class="text-xs text-slate-500 mt-0.5">Enter 6-Character Alphanumeric Password</p>
+          <p class="text-xs text-slate-500 mt-0.5">Enter 6-Character Password</p>
         </div>
         
         <div class="relative text-left">
@@ -458,57 +437,32 @@
         </div>
       </div>
 
-      <!-- पासवर्ड रिकवरी स्क्रीन -->
+      <!-- Password Recovery Screen (Master PIN Direct Recovery) -->
       <div id="admin-recovery-screen" style="display: none;" class="p-8 text-center max-w-sm mx-auto my-auto space-y-4">
         <div class="w-14 h-14 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto text-2xl shadow-inner">
           <i class="fa-solid fa-user-shield"></i>
         </div>
         <div>
-          <h5 class="text-lg font-black text-slate-800">सुरक्षित OTP पासवर्ड रिकवरी</h5>
-          <p class="text-xs text-slate-500 mt-1">पहचान सत्यापित कर OTP प्राप्त करें</p>
+          <h5 class="text-lg font-black text-slate-800">सुरक्षित पासवर्ड रिकवरी</h5>
+          <p class="text-xs text-slate-500 mt-1">मास्टर पिन द्वारा पहचान सत्यापित करें</p>
         </div>
 
-        <div id="recovery-step-1" class="space-y-3">
-          <div class="text-left">
-            <label class="block text-[10px] font-bold text-slate-600 uppercase mb-1">1. पंजीकृत ईमेल या फोन नंबर</label>
-            <input type="text" id="recovery-credential-input" placeholder="ईमेल या 10-अंकीय फोन" class="w-full p-2.5 border border-slate-300 rounded-xl text-xs font-semibold focus:ring-2 focus:ring-amber-500 focus:outline-none">
+        <div id="recovery-step-1" class="space-y-3 text-left">
+          <div>
+            <label class="block text-[10px] font-bold text-slate-600 uppercase mb-1">1. रजिस्टर्ड फोन नंबर या ईमेल</label>
+            <input type="text" id="recovery-credential-input" placeholder="उदा. 8839832064" class="w-full p-2.5 border border-slate-300 rounded-xl text-xs font-semibold focus:ring-2 focus:ring-amber-500 focus:outline-none">
           </div>
           
-          <div class="text-left">
-            <label class="block text-[10px] font-bold text-slate-600 uppercase mb-1">2. गुप्त मास्टर सुरक्षा कोड (Secret PIN) *</label>
-            <input type="password" id="recovery-master-key-input" placeholder="4-अंकीय गुप्त कोड (Default: 4589)" class="w-full p-2.5 border border-slate-300 rounded-xl text-xs font-bold focus:ring-2 focus:ring-amber-500 focus:outline-none">
-            <p class="text-[9px] text-slate-400 mt-0.5">यह कोड सिर्फ मालिक को पता होता है।</p>
+          <div>
+            <label class="block text-[10px] font-bold text-slate-600 uppercase mb-1">2. गुप्त मास्टर सुरक्षा पिन (Secret PIN) *</label>
+            <input type="password" id="recovery-master-key-input" placeholder="4-अंकीय गुप्त पिन (Default: 4589)" class="w-full p-2.5 border border-slate-300 rounded-xl text-xs font-bold focus:ring-2 focus:ring-amber-500 focus:outline-none">
           </div>
 
-          <p id="recovery-error-msg" style="display: none;" class="text-xs text-red-600 font-bold"></p>
+          <p id="recovery-error-msg" style="display: none;" class="text-xs text-red-600 font-bold pt-1"></p>
           
-          <button type="button" onclick="handleGenerateAndSendOTP()" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-2.5 rounded-xl shadow-md cursor-pointer transition text-xs flex items-center justify-center space-x-1">
-            <i class="fa-solid fa-paper-plane text-[10px]"></i>
-            <span>OTP भेजें (Send OTP)</span>
-          </button>
-        </div>
-
-        <div id="recovery-step-2" style="display: none;" class="space-y-3">
-          <div class="p-2.5 bg-blue-50 border border-blue-200 text-blue-900 text-xs rounded-xl text-left space-y-1">
-            <p class="font-bold flex items-center"><i class="fa-solid fa-circle-check text-emerald-600 mr-1.5"></i>OTP भेजा गया:</p>
-            <p class="text-[11px] text-slate-600">• आपके <strong>WhatsApp</strong> व <strong>Gmail</strong> पर OTP भेजा गया है।</p>
-            <p class="text-[10px] text-amber-700 font-semibold" id="otp-hint-text"></p>
-          </div>
-
-          <div class="flex gap-2">
-            <button type="button" id="resend-wa-otp-btn" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white py-1.5 rounded-lg text-[11px] font-bold cursor-pointer">
-              <i class="fa-brands fa-whatsapp mr-1"></i>WhatsApp OTP देखें
-            </button>
-            <button type="button" onclick="dispatchEmailJSOTP(true)" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-1.5 rounded-lg text-[11px] font-bold cursor-pointer">
-              <i class="fa-solid fa-envelope mr-1"></i>Gmail पर पुनः भेजें
-            </button>
-          </div>
-
-          <input type="text" id="recovery-otp-input" maxlength="6" placeholder="Enter 6-Digit OTP" class="w-full p-2.5 border border-slate-300 rounded-xl text-center text-lg font-black tracking-widest focus:ring-2 focus:ring-emerald-500 focus:outline-none">
-          <p id="recovery-otp-error" style="display: none;" class="text-xs text-red-600 font-bold"></p>
-
-          <button type="button" onclick="handleVerifySubmittedOTP()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl shadow-md cursor-pointer transition text-xs">
-            OTP सत्यापित करें (Verify OTP)
+          <button type="button" onclick="handleVerifyMasterPinAndProceed()" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-2.5 rounded-xl shadow-md cursor-pointer transition text-xs flex items-center justify-center space-x-1 mt-2">
+            <i class="fa-solid fa-shield-check text-[10px]"></i>
+            <span>पहचान सत्यापित करें (Verify)</span>
           </button>
         </div>
 
@@ -529,10 +483,8 @@
         </div>
       </div>
 
-      <!-- एडमिन डैशबोर्ड स्क्रीन -->
+      <!-- Admin Dashboard Screen -->
       <div id="admin-content-screen" style="display: none;" class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-5">
-        
-        <!-- टैब्स -->
         <div class="flex space-x-2 border-b border-slate-200 pb-2 overflow-x-auto">
           <button type="button" onclick="switchAdminTab('bookings')" id="tab-btn-bookings" class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-blue-600 text-white whitespace-nowrap cursor-pointer">Bookings / बुकिंग्स</button>
           <button type="button" onclick="switchAdminTab('services')" id="tab-btn-services" class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 whitespace-nowrap cursor-pointer">Services Manager / नई सेवा जोड़ें</button>
@@ -540,14 +492,19 @@
           <button type="button" onclick="switchAdminTab('settings')" id="tab-btn-settings" class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 whitespace-nowrap cursor-pointer">Settings & Security / सेटिंग्स</button>
         </div>
 
-        <!-- टैब 1: बुकिंग लिस्ट -->
+        <!-- Tab 1: Bookings List -->
         <div id="admin-tab-bookings" class="space-y-4">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-slate-500 uppercase">Recent Client Orders</span>
-            <button type="button" onclick="exportBookingsToCSV()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center space-x-1.5 shadow-sm cursor-pointer">
-              <i class="fa-solid fa-file-excel"></i>
-              <span>Export CSV (Excel)</span>
-            </button>
+            <span class="text-xs font-bold text-slate-500 uppercase">Recent Client Orders (Cloud Firestore Connected)</span>
+            <div class="flex items-center space-x-2">
+              <button type="button" onclick="renderAdminBookings()" class="bg-blue-50 hover:bg-blue-100 text-blue-700 px-3 py-1.5 rounded-lg text-xs font-bold cursor-pointer">
+                <i class="fa-solid fa-rotate mr-1"></i> Refresh
+              </button>
+              <button type="button" onclick="exportBookingsToCSV()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center space-x-1.5 shadow-sm cursor-pointer">
+                <i class="fa-solid fa-file-excel"></i>
+                <span>Export CSV (Excel)</span>
+              </button>
+            </div>
           </div>
 
           <div class="overflow-x-auto border border-slate-200 rounded-2xl">
@@ -557,28 +514,24 @@
                   <th class="p-3">ID / Date</th>
                   <th class="p-3">Customer</th>
                   <th class="p-3">Service</th>
-                  <th class="p-3">Address & Landmark</th>
+                  <th class="p-3">Address, Landmark & GPS</th>
                   <th class="p-3 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody id="admin-bookings-table-body" class="divide-y divide-slate-100">
-                <!-- Data loaded dynamically via JS -->
-              </tbody>
+              <tbody id="admin-bookings-table-body" class="divide-y divide-slate-100"></tbody>
             </table>
           </div>
         </div>
 
-        <!-- टैब 2: सर्विस मैनेजर -->
+        <!-- Tab 2: Services Manager -->
         <div id="admin-tab-services" style="display: none;" class="space-y-5">
-          
-          <!-- नई सर्विस जोड़ने का फॉर्म -->
           <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 p-4 rounded-2xl space-y-3">
             <div class="flex items-center justify-between">
               <h5 class="text-xs font-black text-blue-900 uppercase flex items-center space-x-1.5">
                 <i class="fa-solid fa-circle-plus text-blue-600 text-sm"></i>
                 <span>+ नई सर्विस जोड़ें (Add New Service)</span>
               </h5>
-              <span class="text-[10px] bg-blue-200 text-blue-800 px-2 py-0.5 rounded-full font-bold">लाइव अपडेट</span>
+              <span class="text-[10px] bg-blue-200 text-blue-800 px-2 py-0.5 rounded-full font-bold">Cloud Live</span>
             </div>
             
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
@@ -621,29 +574,25 @@
 
             <button type="button" onclick="handleAddNewService()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-5 rounded-xl text-xs shadow cursor-pointer transition flex items-center space-x-1.5">
               <i class="fa-solid fa-plus"></i>
-              <span>सर्विस पक्की जोड़ें (Save New Service)</span>
+              <span>सर्विस जोड़ें और Cloud पर सेव करें</span>
             </button>
           </div>
 
-          <!-- मौजूदा सभी सेवाओं की लिस्ट व रेट्स -->
           <div class="space-y-3">
             <div class="flex items-center justify-between">
               <span class="text-xs font-bold text-slate-700 uppercase">वर्तमान चालू सेवाएं (Manage Current Services)</span>
               <span class="text-[11px] text-slate-400">रेट बदलें या गैर-ज़रूरी सर्विस हटाएं</span>
             </div>
 
-            <div id="admin-services-list" class="space-y-2.5">
-              <!-- Rendered via JS -->
-            </div>
+            <div id="admin-services-list" class="space-y-2.5"></div>
 
             <button type="button" onclick="saveAllAdminServicesRates()" class="bg-slate-900 hover:bg-black text-white font-bold px-5 py-2.5 rounded-xl text-xs shadow cursor-pointer">
-              सभी बदले हुए रेट्स सेव करें (Save All Rates)
+              सभी बदले हुए रेट्स Cloud पर सुरक्षित सेव करें
             </button>
           </div>
-
         </div>
 
-        <!-- टैब 3: बिल सुधार व रसीद एडिटर -->
+        <!-- Tab 3: Bill Editor & Slip -->
         <div id="admin-tab-slip" style="display: none;" class="space-y-4">
           <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 flex flex-wrap gap-2 justify-between items-center">
             <div>
@@ -663,13 +612,12 @@
             </div>
           </div>
 
-          <!-- रसीद प्रिव्यू व एडिटर -->
           <div id="printable-slip" class="bg-white p-6 border border-slate-300 rounded-2xl shadow-sm text-xs space-y-4">
             <div class="flex justify-between items-start border-b pb-3">
               <div>
                 <h4 id="slip-comp-name" class="font-black text-base text-slate-900">QuickFix Services</h4>
                 <p id="slip-comp-address" class="text-slate-500 text-[11px]">Bhawarkua Main Road, Indore</p>
-                <p id="slip-comp-contact" class="text-slate-500 text-[11px]">Phone: 9876543210</p>
+                <p id="slip-comp-contact" class="text-slate-500 text-[11px]">Phone: 8839832064</p>
               </div>
               <div class="text-right">
                 <span class="inline-block bg-slate-900 text-white font-bold px-2.5 py-0.5 rounded text-[10px]">SERVICE SLIP / CASH MEMO</span>
@@ -681,7 +629,6 @@
               </div>
             </div>
 
-            <!-- ग्राहक जानकारी -->
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 bg-slate-50 p-3 rounded-xl">
               <div>
                 <label class="block text-[10px] font-bold text-slate-600">Client Name / ग्राहक का नाम</label>
@@ -697,7 +644,6 @@
               </div>
             </div>
 
-            <!-- काम और पार्ट्स की तालिका -->
             <table class="w-full text-left">
               <thead class="bg-slate-100 text-slate-700">
                 <tr>
@@ -708,9 +654,7 @@
                   <th class="p-2 w-10 text-center no-print">हटाएं</th>
                 </tr>
               </thead>
-              <tbody id="slip-items-body" class="divide-y divide-slate-100">
-                <!-- Rows injected via JS -->
-              </tbody>
+              <tbody id="slip-items-body" class="divide-y divide-slate-100"></tbody>
             </table>
 
             <div class="flex justify-between items-center pt-1 no-print">
@@ -720,7 +664,6 @@
               <span class="text-[10px] text-slate-400">रेट या मात्रा बदलते ही कुल योग अपने-आप ठीक होगा</span>
             </div>
 
-            <!-- हिसाब-किताब -->
             <div class="flex justify-end pt-3 border-t">
               <div class="w-64 space-y-1.5 text-right">
                 <div class="flex justify-between">
@@ -740,31 +683,26 @@
           </div>
         </div>
 
-        <!-- टैब 4: संपर्क, बिजनेस सेटिंग्स व 100% लूपहोल-फ्री सुरक्षा प्रबंधन -->
+        <!-- Tab 4: Settings & Security (Firebase Live Synced) -->
         <div id="admin-tab-settings" style="display: none;" class="space-y-5">
-          
-          <!-- सुरक्षा कार्ड -->
           <div class="bg-amber-50 border border-amber-200 p-4 rounded-2xl space-y-3">
             <h5 class="text-xs font-bold text-amber-900 uppercase flex items-center space-x-1">
               <i class="fa-solid fa-lock text-sm"></i>
-              <span>एडमिन सुरक्षा व गुप्त क्रेडेंशियल्स (Zero-Loophole Security)</span>
+              <span>एडमिन सुरक्षा व क्रेडेंशियल्स</span>
             </h5>
-            <p class="text-[11px] text-amber-700">यहाँ से अपना 6-अंकीय पासवर्ड और गुप्त मास्टर पिन (Secret PIN) बदलें।</p>
-            
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div class="p-3 bg-white rounded-xl border border-amber-100 space-y-2">
-                <label class="block text-[10px] font-bold text-slate-700 uppercase">1. लॉगिन पासवर्ड बदलें (Change Password)</label>
-                <input type="password" id="pwd-old-input" placeholder="वर्तमान पासवर्ड (Current)" class="w-full p-2 border rounded-lg text-xs bg-slate-50">
+                <label class="block text-[10px] font-bold text-slate-700 uppercase">1. लॉगिन पासवर्ड बदलें</label>
+                <input type="password" id="pwd-old-input" placeholder="वर्तमान पासवर्ड" class="w-full p-2 border rounded-lg text-xs bg-slate-50">
                 <input type="text" id="pwd-new-input" maxlength="12" placeholder="नया 6-अंकीय पासवर्ड" class="w-full p-2 border rounded-lg text-xs font-bold bg-slate-50">
                 <button type="button" onclick="handlePasswordUpdate()" class="w-full bg-slate-800 hover:bg-black text-white font-bold py-2 rounded-lg text-xs cursor-pointer shadow">
-                  Update Password
+                  Update Password (Cloud Sync)
                 </button>
               </div>
 
               <div class="p-3 bg-white rounded-xl border border-amber-100 space-y-2">
-                <label class="block text-[10px] font-bold text-slate-700 uppercase">2. गुप्त मास्टर पिन बदलें (Secret Recovery PIN)</label>
-                <input type="text" id="setting-master-key-input" placeholder="4-अंकीय गुप्त पिन (उदा. 4589)" class="w-full p-2 border rounded-lg text-xs font-bold bg-slate-50 text-blue-700">
-                <p class="text-[9px] text-slate-400">यह गुप्त पिन केवल आपके पास रहेगा।</p>
+                <label class="block text-[10px] font-bold text-slate-700 uppercase">2. गुप्त मास्टर पिन बदलें (Default: 4589)</label>
+                <input type="text" id="setting-master-key-input" placeholder="4-अंकीय गुप्त पिन" class="w-full p-2 border rounded-lg text-xs font-bold bg-slate-50 text-blue-700">
                 <button type="button" onclick="handleMasterKeyUpdate()" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-2 rounded-lg text-xs cursor-pointer shadow">
                   Update Secret Master PIN
                 </button>
@@ -772,52 +710,78 @@
             </div>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-            <div>
-              <label class="block font-bold text-slate-700 mb-1">Business Name / दुकान का नाम</label>
-              <input type="text" id="setting-comp-name" placeholder="QuickFix Services" class="w-full p-2.5 border rounded-lg">
+          <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-2xl">
+            <p class="text-xs text-emerald-900 font-bold mb-3 flex items-center">
+              <i class="fa-solid fa-cloud-arrow-up mr-1.5 text-sm text-emerald-600"></i>
+              यहाँ से नंबर या पता बदलने पर सभी कस्टमर्स को लाइव स्क्रीन पर तुरंत दिखेगा:
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">Business Name / दुकान का नाम</label>
+                <input type="text" id="setting-comp-name" placeholder="QuickFix Services" class="w-full p-2.5 border rounded-lg bg-white">
+              </div>
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">Calling Phone / कॉलिंग नंबर (होमपेज पर दिखेगा)</label>
+                <input type="text" id="setting-phone" placeholder="8839832064" class="w-full p-2.5 border rounded-lg font-bold bg-white text-emerald-800">
+              </div>
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">WhatsApp Phone / व्हाट्सएप नंबर</label>
+                <input type="text" id="setting-wa" placeholder="8839832064" class="w-full p-2.5 border rounded-lg font-bold bg-white text-emerald-800">
+              </div>
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">Support Email / सपोर्ट ईमेल</label>
+                <input type="email" id="setting-email" placeholder="quickfix.indore@gmail.com" class="w-full p-2.5 border rounded-lg font-bold bg-white">
+              </div>
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">UPI ID (GPay / PhonePe / Paytm)</label>
+                <input type="text" id="setting-upi" placeholder="8839832064@paytm" class="w-full p-2.5 border rounded-lg bg-white">
+              </div>
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">Office Address / ऑफिस का पता</label>
+                <input type="text" id="setting-addr" placeholder="भंवरकुआं मेन रोड, इंदौर, म.प्र." class="w-full p-2.5 border rounded-lg bg-white">
+              </div>
             </div>
-            <div>
-              <label class="block font-bold text-slate-700 mb-1">Calling Phone / कॉलिंग नंबर (होमपेज पर दिखेगा)</label>
-              <input type="text" id="setting-phone" placeholder="9876543210" class="w-full p-2.5 border rounded-lg font-bold">
-            </div>
-            <div>
-              <label class="block font-bold text-slate-700 mb-1">WhatsApp Phone / व्हाट्सएप नंबर</label>
-              <input type="text" id="setting-wa" placeholder="9876543210" class="w-full p-2.5 border rounded-lg font-bold">
-            </div>
-            <div>
-              <label class="block font-bold text-slate-700 mb-1">Support Email / सपोर्ट ईमेल (होमपेज पर दिखेगा)</label>
-              <input type="email" id="setting-email" placeholder="quickfix.indore@gmail.com" class="w-full p-2.5 border rounded-lg font-bold">
-            </div>
-            <div>
-              <label class="block font-bold text-slate-700 mb-1">UPI ID (GPay / PhonePe / Paytm)</label>
-              <input type="text" id="setting-upi" placeholder="quickfix@paytm" class="w-full p-2.5 border rounded-lg">
-            </div>
-            <div>
-              <label class="block font-bold text-slate-700 mb-1">Office Address / ऑफिस का पता</label>
-              <input type="text" id="setting-addr" placeholder="भंवरकुआं मेन रोड, इंदौर, म.प्र." class="w-full p-2.5 border rounded-lg">
-            </div>
+            <button type="button" onclick="saveAdminSettings()" class="mt-4 bg-slate-900 hover:bg-black text-white font-bold px-6 py-2.5 rounded-xl text-xs shadow-md cursor-pointer flex items-center space-x-1.5">
+              <i class="fa-solid fa-cloud-arrow-up text-amber-400"></i>
+              <span>Save & Publish Live for All Users</span>
+            </button>
           </div>
-          <button type="button" onclick="saveAdminSettings()" class="bg-slate-900 hover:bg-black text-white font-bold px-6 py-2.5 rounded-xl text-xs shadow-md cursor-pointer">
-            Save Office Details / ऑफिस विवरण सुरक्षित सेव करें
-          </button>
         </div>
-
       </div>
     </div>
   </div>
 
-  <!-- सुरक्षित फ्लोटिंग व्हाट्सएप बटन -->
+  <!-- Floating WhatsApp Button -->
   <a id="floating-wa-btn" href="#" target="_blank" class="fixed safe-wa-btn z-20 bg-emerald-500 hover:bg-emerald-600 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-xl shadow-emerald-300 transition-all transform hover:scale-110">
     <i class="fa-brands fa-whatsapp text-3xl"></i>
     <span class="absolute -top-1 -right-1 w-3.5 h-3.5 bg-red-500 rounded-full border-2 border-white"></span>
   </a>
 
-  <!-- टोस्ट नोटिफिकेशन (Toast Message) -->
+  <!-- Toast Message -->
   <div id="toast-notify" style="display: none;" class="fixed top-5 right-5 z-50 bg-slate-900 text-white px-4 py-2.5 rounded-xl shadow-2xl text-xs font-bold border border-slate-700 transition"></div>
 
-  <!-- मजबूत व क्रैश-प्रूफ जावास्क्रिप्ट इंजन -->
+  <!-- JavaScript Engine (Firebase Real-Time Firestore Sync + GPS) -->
   <script>
+    // --- 0. FIREBASE INITIALIZATION ---
+    var firebaseConfig = {
+      apiKey: "AIzaSyCByW0K6HUg-MhIlsZnoEmM4Q_Y11SqDzY",
+      authDomain: "quickfix-services-indore.firebaseapp.com",
+      projectId: "quickfix-services-indore",
+      storageBucket: "quickfix-services-indore.firebasestorage.app",
+      messagingSenderId: "793197583790",
+      appId: "1:793197583790:web:8cb61a97024848980e7c3f"
+    };
+
+    var db = null;
+    try {
+      if (typeof firebase !== "undefined") {
+        firebase.initializeApp(firebaseConfig);
+        db = firebase.firestore();
+      }
+    } catch (e) {
+      console.warn("Firebase Init fallback:", e);
+    }
+
     var currentLang = "hi";
 
     var translations = {
@@ -864,7 +828,7 @@
         phCity: "शहर एवं पिनकोड",
         rateLabel: "शुरुआती सर्विस चार्ज (Starting Rate):",
         rateNote: "विजिट चार्ज: ₹500 (फाइनल बिल में पूरा एडजस्ट)",
-        submitBtn: "बुकिंग दर्ज करें",
+        submitBtn: "बुकिंग दर्ज करें (GPS लोकेशन के साथ)",
         modalSuccessTitle: "बुकिंग दर्ज हो चुकी है!",
         modalBookingLbl: "बुकिंग आईडी:",
         modalLblCust: "ग्राहक:",
@@ -917,7 +881,7 @@
         phCity: "City and Pincode",
         rateLabel: "Starting Service Rate:",
         rateNote: "Doorstep Visit: ₹500 (100% adjusted into final bill)",
-        submitBtn: "Confirm Booking",
+        submitBtn: "Confirm Booking (with GPS Location)",
         modalSuccessTitle: "Booking Confirmed Successfully!",
         modalBookingLbl: "Booking ID:",
         modalLblCust: "Customer:",
@@ -1051,17 +1015,14 @@
       masterRecoveryKey: "4589",
       company: {
         name: "QuickFix Services",
-        phone: "9876543210",
-        whatsapp: "9876543210",
+        phone: "8839832064",
+        whatsapp: "8839832064",
         email: "quickfix.indore@gmail.com",
-        upiId: "9876543210@paytm",
+        upiId: "8839832064@paytm",
         address: "भंवरकुआं मेन रोड, इंदौर, म.प्र."
       },
       services: INITIAL_SERVICES
     };
-
-    var currentGeneratedOTP = null;
-    var otpExpiryTimer = null;
 
     function showToast(msg) {
       var t = document.getElementById("toast-notify");
@@ -1074,32 +1035,70 @@
     }
 
     function safePhone(num) {
-      if (!num) return "9876543210";
+      if (!num) return "8839832064";
       var cleaned = String(num).replace(/[^0-9]/g, "");
-      return cleaned.length >= 10 ? cleaned.slice(-10) : "9876543210";
+      return cleaned.length >= 10 ? cleaned.slice(-10) : "8839832064";
     }
+
+    // --- CLOUD FIRESTORE REAL-TIME SETTINGS SYNC ---
+    var cachedConfig = DEFAULT_CONFIG;
 
     function getConfig() {
-      try {
-        var saved = localStorage.getItem("qf_bilingual_config_v10");
-        if (saved) {
-          var parsed = JSON.parse(saved);
-          if (parsed && parsed.company && Array.isArray(parsed.services)) return parsed;
-        }
-      } catch(e) {}
-      return DEFAULT_CONFIG;
+      return cachedConfig;
     }
 
-    function saveConfig(cfg) {
+    async function saveConfig(cfg) {
+      cachedConfig = cfg;
       try {
-        localStorage.setItem("qf_bilingual_config_v10", JSON.stringify(cfg));
+        localStorage.setItem("qf_bilingual_config_cloud_v1", JSON.stringify(cfg));
       } catch(e) {}
       applyConfigToUI();
+
+      // Cloud Firestore me live save (All users get update instantly)
+      if (db) {
+        try {
+          await db.collection("settings").doc("config").set(cfg);
+        } catch(err) {
+          console.warn("Firestore config save error:", err);
+        }
+      }
+    }
+
+    // Listen to Real-time Updates from Cloud Firestore
+    function initLiveCloudConfigSync() {
+      try {
+        var localCached = localStorage.getItem("qf_bilingual_config_cloud_v1");
+        if (localCached) {
+          var parsed = JSON.parse(localCached);
+          if (parsed && parsed.company) cachedConfig = parsed;
+        }
+      } catch(e) {}
+      applyConfigToUI();
+
+      if (!db) return;
+
+      db.collection("settings").doc("config").onSnapshot(function(doc) {
+        if (doc.exists) {
+          var cloudData = doc.data();
+          if (cloudData && cloudData.company && Array.isArray(cloudData.services)) {
+            cachedConfig = cloudData;
+            try {
+              localStorage.setItem("qf_bilingual_config_cloud_v1", JSON.stringify(cloudData));
+            } catch(e) {}
+            applyConfigToUI();
+          }
+        } else {
+          // Initialize default cloud document first time
+          db.collection("settings").doc("config").set(DEFAULT_CONFIG);
+        }
+      }, function(error) {
+        console.warn("Live settings sync listener notice:", error);
+      });
     }
 
     function getBookings() {
       try {
-        var saved = localStorage.getItem("qf_bilingual_bookings_v10");
+        var saved = localStorage.getItem("qf_bilingual_bookings_v12");
         return saved ? JSON.parse(saved) : [];
       } catch(e) {
         return [];
@@ -1108,16 +1107,35 @@
 
     function saveBookings(bks) {
       try {
-        localStorage.setItem("qf_bilingual_bookings_v10", JSON.stringify(bks));
+        localStorage.setItem("qf_bilingual_bookings_v12", JSON.stringify(bks));
       } catch(e) {}
     }
 
-    // भाषा टॉगल
+    function getCustomerGPSLocation() {
+      return new Promise(function(resolve) {
+        if (!navigator.geolocation) {
+          resolve(null);
+          return;
+        }
+        navigator.geolocation.getCurrentPosition(
+          function(pos) {
+            resolve({
+              lat: pos.coords.latitude.toFixed(6),
+              lng: pos.coords.longitude.toFixed(6),
+              accuracy: Math.round(pos.coords.accuracy)
+            });
+          },
+          function(err) {
+            console.warn("GPS error / permission denied:", err.message);
+            resolve(null);
+          },
+          { enableHighAccuracy: true, timeout: 7000, maximumAge: 0 }
+        );
+      });
+    }
+
     function toggleLanguage() {
       currentLang = (currentLang === "hi") ? "en" : "hi";
-      try {
-        localStorage.setItem("qf_app_lang_pref_v10", currentLang);
-      } catch(e) {}
       applyLanguageToUI();
     }
 
@@ -1183,102 +1201,46 @@
       applyConfigToUI();
     }
 
-    // 4. होमपेज, हेडर व फुटर में नंबर, ईमेल व सेवाओं को लाइव दिखाना (Live Phone & Email Sync)
     function applyConfigToUI() {
       var cfg = getConfig();
-      var t = translations[currentLang] || translations.hi;
       var cPhone = safePhone(cfg.company.phone);
       var cEmail = cfg.company.email || "quickfix.indore@gmail.com";
       var cWa = safePhone(cfg.company.whatsapp);
       var cName = cfg.company.name || "QuickFix Services";
       var cAddr = cfg.company.address || "भंवरकुआं मेन रोड, इंदौर, म.प्र.";
 
-      // Brand Names
-      if (document.getElementById("brand-header-name")) {
-        document.getElementById("brand-header-name").textContent = cName;
-      }
-      if (document.getElementById("footer-comp-name")) {
-        document.getElementById("footer-comp-name").textContent = cName;
-      }
+      if (document.getElementById("brand-header-name")) document.getElementById("brand-header-name").textContent = cName;
+      if (document.getElementById("footer-comp-name")) document.getElementById("footer-comp-name").textContent = cName;
 
-      // 1. Top Announcement Bar Contacts
-      if (document.getElementById("topbar-phone-display")) {
-        document.getElementById("topbar-phone-display").textContent = cPhone;
-      }
-      if (document.getElementById("topbar-call-link")) {
-        document.getElementById("topbar-call-link").href = "tel:" + cPhone;
-      }
-      if (document.getElementById("topbar-email-display")) {
-        document.getElementById("topbar-email-display").textContent = cEmail;
-      }
-      if (document.getElementById("topbar-email-link")) {
-        document.getElementById("topbar-email-link").href = "mailto:" + cEmail;
-      }
+      if (document.getElementById("topbar-phone-display")) document.getElementById("topbar-phone-display").textContent = cPhone;
+      if (document.getElementById("topbar-call-link")) document.getElementById("topbar-call-link").href = "tel:" + cPhone;
+      if (document.getElementById("topbar-email-display")) document.getElementById("topbar-email-display").textContent = cEmail;
+      if (document.getElementById("topbar-email-link")) document.getElementById("topbar-email-link").href = "mailto:" + cEmail;
 
-      // 2. Header Direct Call Button with displayed number
-      if (document.getElementById("header-phone-display")) {
-        document.getElementById("header-phone-display").textContent = cPhone;
-      }
-      if (document.getElementById("top-call-btn")) {
-        document.getElementById("top-call-btn").href = "tel:" + cPhone;
-      }
+      if (document.getElementById("header-phone-display")) document.getElementById("header-phone-display").textContent = cPhone;
+      if (document.getElementById("top-call-btn")) document.getElementById("top-call-btn").href = "tel:" + cPhone;
 
-      // 3. Hero Section Direct Call & Email Badges
-      if (document.getElementById("hero-phone-display")) {
-        document.getElementById("hero-phone-display").textContent = "+91 " + cPhone;
-      }
-      if (document.getElementById("hero-call-card")) {
-        document.getElementById("hero-call-card").href = "tel:" + cPhone;
-      }
-      if (document.getElementById("hero-email-display")) {
-        document.getElementById("hero-email-display").textContent = cEmail;
-      }
-      if (document.getElementById("hero-email-card")) {
-        document.getElementById("hero-email-card").href = "mailto:" + cEmail;
-      }
+      if (document.getElementById("hero-phone-display")) document.getElementById("hero-phone-display").textContent = "+91 " + cPhone;
+      if (document.getElementById("hero-call-card")) document.getElementById("hero-call-card").href = "tel:" + cPhone;
+      if (document.getElementById("hero-email-display")) document.getElementById("hero-email-display").textContent = cEmail;
+      if (document.getElementById("hero-email-card")) document.getElementById("hero-email-card").href = "mailto:" + cEmail;
 
-      // 4. WhatsApp Links
       var waMsg = encodeURIComponent("Hello " + cName + ", I need service assistance.");
       var waUrl = "https://wa.me/91" + cWa + "?text=" + waMsg;
-      if (document.getElementById("hero-wa-btn")) {
-        document.getElementById("hero-wa-btn").href = waUrl;
-      }
-      if (document.getElementById("floating-wa-btn")) {
-        document.getElementById("floating-wa-btn").href = waUrl;
-      }
+      if (document.getElementById("hero-wa-btn")) document.getElementById("hero-wa-btn").href = waUrl;
+      if (document.getElementById("floating-wa-btn")) document.getElementById("floating-wa-btn").href = waUrl;
 
-      // 5. Footer Contacts
-      if (document.getElementById("footer-phone-display")) {
-        document.getElementById("footer-phone-display").textContent = "+91 " + cPhone;
-      }
-      if (document.getElementById("footer-call-link")) {
-        document.getElementById("footer-call-link").href = "tel:" + cPhone;
-      }
-      if (document.getElementById("footer-email-display")) {
-        document.getElementById("footer-email-display").textContent = cEmail;
-      }
-      if (document.getElementById("footer-email-link")) {
-        document.getElementById("footer-email-link").href = "mailto:" + cEmail;
-      }
-      if (document.getElementById("footer-wa-link")) {
-        document.getElementById("footer-wa-link").href = waUrl;
-      }
-      if (document.getElementById("footer-addr-display")) {
-        document.getElementById("footer-addr-display").textContent = cAddr;
-      }
+      if (document.getElementById("footer-phone-display")) document.getElementById("footer-phone-display").textContent = "+91 " + cPhone;
+      if (document.getElementById("footer-call-link")) document.getElementById("footer-call-link").href = "tel:" + cPhone;
+      if (document.getElementById("footer-email-display")) document.getElementById("footer-email-display").textContent = cEmail;
+      if (document.getElementById("footer-email-link")) document.getElementById("footer-email-link").href = "mailto:" + cEmail;
+      if (document.getElementById("footer-wa-link")) document.getElementById("footer-wa-link").href = waUrl;
+      if (document.getElementById("footer-addr-display")) document.getElementById("footer-addr-display").textContent = cAddr;
 
-      // 6. Slip Company Info
-      if (document.getElementById("slip-comp-name")) {
-        document.getElementById("slip-comp-name").textContent = cName;
-      }
-      if (document.getElementById("slip-comp-address")) {
-        document.getElementById("slip-comp-address").textContent = cAddr;
-      }
-      if (document.getElementById("slip-comp-contact")) {
-        document.getElementById("slip-comp-contact").textContent = "Phone: " + cPhone;
-      }
+      if (document.getElementById("slip-comp-name")) document.getElementById("slip-comp-name").textContent = cName;
+      if (document.getElementById("slip-comp-address")) document.getElementById("slip-comp-address").textContent = cAddr;
+      if (document.getElementById("slip-comp-contact")) document.getElementById("slip-comp-contact").textContent = "Phone: " + cPhone;
 
-      // 7. Dynamic Services Cards & Dropdown
       var cardsContainer = document.getElementById("dynamic-services-cards");
       var selService = document.getElementById("cust-service");
       var prevSelectedService = selService.value;
@@ -1314,12 +1276,12 @@
               '<span class="text-sm font-black text-blue-700 bg-blue-50 px-2.5 py-1 rounded-xl">₹' + s.rate + '</span>' +
             '</div>' +
             '<div class="border-t border-slate-100 pt-3">' +
-              '<p class="text-[11px] font-bold text-slate-600 uppercase mb-2">' + t.scopeHeader + '</p>' +
+              '<p class="text-[11px] font-bold text-slate-600 uppercase mb-2">क्या-क्या काम करते हैं (Work Done):</p>' +
               '<ul class="text-xs text-slate-600 space-y-1.5">' + taskListHtml + '</ul>' +
             '</div>' +
           '</div>' +
           '<button type="button" class="mt-4 w-full bg-slate-100 hover:bg-blue-600 hover:text-white text-slate-700 font-bold py-2 rounded-xl text-xs transition flex items-center justify-center space-x-1">' +
-            '<span>' + t.cardBtn + ' (' + sName + ')</span>' +
+            '<span>बुक करें (' + sName + ')</span>' +
             '<i class="fa-solid fa-arrow-right text-[10px]"></i>' +
           '</button>';
         cardsContainer.appendChild(cardDiv);
@@ -1361,11 +1323,15 @@
       }
     }
 
-    // 5. बुकिंग सबमिशन
-    function handleBookingSubmit(e) {
+    // 5. Booking Submit (Live GPS + Cloud Push)
+    async function handleBookingSubmit(e) {
       e.preventDefault();
+      var submitBtn = document.getElementById("submit-booking-btn");
+      var originalBtnHtml = submitBtn.innerHTML;
+      submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> GPS लोकेशन व बुकिंग सेव हो रही है...';
+      submitBtn.disabled = true;
+
       var cfg = getConfig();
-      var t = translations[currentLang] || translations.hi;
       var bookingId = "QF-" + Math.floor(1000 + Math.random() * 9000);
 
       var sKey = document.getElementById("cust-service").value;
@@ -1373,9 +1339,21 @@
       var sName = found ? ((currentLang === "en") ? (found.name_en || found.name_hi) : (found.name_hi || found.name_en)) : sKey;
       var sRate = found ? found.rate : 199;
 
+      var coords = await getCustomerGPSLocation();
+      var mapsUrl = "";
+      var latVal = "";
+      var lngVal = "";
+
+      if (coords) {
+        latVal = coords.lat;
+        lngVal = coords.lng;
+        mapsUrl = "https://www.google.com/maps?q=" + coords.lat + "," + coords.lng;
+      }
+
       var booking = {
         id: bookingId,
         date: new Date().toLocaleDateString("en-IN"),
+        createdAt: new Date().toISOString(),
         name: document.getElementById("cust-name").value.trim(),
         phone: document.getElementById("cust-phone").value.trim(),
         serviceKey: sKey,
@@ -1386,8 +1364,19 @@
         landmark: document.getElementById("cust-landmark").value.trim(),
         city: document.getElementById("cust-city").value.trim(),
         rate: sRate,
-        visitCharge: 500
+        visitCharge: 500,
+        gpsLatitude: latVal,
+        gpsLongitude: lngVal,
+        gpsMapUrl: mapsUrl
       };
+
+      if (db) {
+        try {
+          await db.collection("bookings").doc(bookingId).set(booking);
+        } catch(err) {
+          console.warn("Firestore save failed, fallback to local:", err);
+        }
+      }
 
       var list = getBookings();
       list.unshift(booking);
@@ -1398,22 +1387,32 @@
       document.getElementById("modal-cust-service").textContent = booking.service;
       document.getElementById("modal-cust-address").textContent = booking.house + ", " + booking.society + " (Landmark: " + booking.landmark + "), " + booking.city;
 
+      var gpsContainer = document.getElementById("modal-gps-link-container");
+      if (mapsUrl) {
+        gpsContainer.innerHTML = '<i class="fa-solid fa-location-dot text-red-500 mr-1"></i> <strong>GPS लोकेशन:</strong> <a href="' + mapsUrl + '" target="_blank" class="underline text-blue-600 font-mono">Google Map खोलें</a>';
+      } else {
+        gpsContainer.innerHTML = '<span class="text-slate-400">📍 GPS लोकेशन: उपलब्ध नहीं (पते के अनुसार संपर्क करें)</span>';
+      }
+
       var upiUrl = "upi://pay?pa=" + encodeURIComponent(cfg.company.upiId) + "&pn=" + encodeURIComponent(cfg.company.name) + "&am=" + booking.rate + "&cu=INR";
       document.getElementById("modal-qr-img").src = "https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=" + encodeURIComponent(upiUrl);
 
       var cWa = safePhone(cfg.company.whatsapp);
       var lines = [
-        "*NEW BOOKING - " + cfg.company.name + "*",
+        "*NEW DOORSTEP BOOKING - " + cfg.company.name + "*",
         "Booking ID: " + booking.id,
         "Customer: " + booking.name,
         "Mobile: " + booking.phone,
         "Service: " + booking.service,
         "Preferred Time: " + booking.time,
+        "-------------------------",
         "House/Shop: " + booking.house,
         "Society/Area: " + booking.society,
         "Landmark: " + booking.landmark,
         "City: " + booking.city,
-        "Base Service Charge: ₹" + booking.rate,
+        "📍 LIVE GPS MAP: " + (mapsUrl || "Not detected (Manual address above)"),
+        "-------------------------",
+        "Starting Service Rate: ₹" + booking.rate,
         "Doorstep Visit Charge: ₹500 (Adjustable into final bill)"
       ];
       var waMsg = encodeURIComponent(lines.join("\n"));
@@ -1422,6 +1421,8 @@
         waDirectLink.href = "https://wa.me/91" + cWa + "?text=" + waMsg;
       }
 
+      submitBtn.innerHTML = originalBtnHtml;
+      submitBtn.disabled = false;
       document.getElementById("booking-success-modal").style.display = "flex";
       document.getElementById("booking-form").reset();
     }
@@ -1430,7 +1431,6 @@
       document.getElementById("booking-success-modal").style.display = "none";
     }
 
-    // 6. एडमिन लॉगिन
     function togglePasswordVisibility(inputId, iconId) {
       var inp = document.getElementById(inputId);
       var ico = document.getElementById(iconId);
@@ -1451,7 +1451,7 @@
       modal.style.display = "flex";
       hideForgotPasswordScreen();
 
-      var isLoggedIn = localStorage.getItem("qf_admin_logged_in_v10") === "true";
+      var isLoggedIn = localStorage.getItem("qf_admin_logged_in_v12") === "true";
       if (isLoggedIn) {
         document.getElementById("admin-login-screen").style.display = "none";
         document.getElementById("admin-content-screen").style.display = "block";
@@ -1481,7 +1481,7 @@
       var targetPwd = cfg.adminPin || "QF2026";
 
       if (entered.toLowerCase() === targetPwd.toLowerCase()) {
-        localStorage.setItem("qf_admin_logged_in_v10", "true");
+        localStorage.setItem("qf_admin_logged_in_v12", "true");
         document.getElementById("admin-login-screen").style.display = "none";
         document.getElementById("admin-content-screen").style.display = "block";
         document.getElementById("admin-header-logout-btn").style.display = "flex";
@@ -1501,7 +1501,7 @@
     }
 
     function handleAdminLogout() {
-      localStorage.removeItem("qf_admin_logged_in_v10");
+      localStorage.removeItem("qf_admin_logged_in_v12");
       document.getElementById("admin-login-screen").style.display = "block";
       document.getElementById("admin-content-screen").style.display = "none";
       document.getElementById("admin-header-logout-btn").style.display = "none";
@@ -1510,12 +1510,11 @@
       showToast("एडमिन पोर्टल से सफलतापूर्वक लॉगआउट हो गए!");
     }
 
-    // 7. पासवर्ड रिकवरी
+    // Password Recovery (Master PIN Verification - No OTP)
     function showForgotPasswordScreen() {
       document.getElementById("admin-login-screen").style.display = "none";
       document.getElementById("admin-recovery-screen").style.display = "block";
       document.getElementById("recovery-step-1").style.display = "block";
-      document.getElementById("recovery-step-2").style.display = "none";
       document.getElementById("recovery-step-3").style.display = "none";
       document.getElementById("recovery-credential-input").value = "";
       document.getElementById("recovery-master-key-input").value = "";
@@ -1528,107 +1527,42 @@
       document.getElementById("admin-login-screen").style.display = "block";
       var err = document.getElementById("recovery-error-msg");
       if (err) err.style.display = "none";
-      if (otpExpiryTimer) clearTimeout(otpExpiryTimer);
-      currentGeneratedOTP = null;
     }
 
-    function handleGenerateAndSendOTP() {
+    function handleVerifyMasterPinAndProceed() {
       var cfg = getConfig();
       var inputCred = document.getElementById("recovery-credential-input").value.trim().toLowerCase();
       var inputMaster = document.getElementById("recovery-master-key-input").value.trim();
       var err = document.getElementById("recovery-error-msg");
 
       if (!inputCred || !inputMaster) {
-        err.textContent = "कृपया ईमेल/फोन और गुप्त मास्टर पिन दोनों दर्ज करें!";
+        err.textContent = "कृपया फोन नंबर और गुप्त मास्टर पिन दोनों दर्ज करें!";
         err.style.display = "block";
         return;
       }
 
-      var regEmail = (cfg.company.email || "quickfix.indore@gmail.com").trim().toLowerCase();
-      var regPhone = safePhone(cfg.company.phone || "9876543210");
+      var regPhone = safePhone(cfg.company.phone || "8839832064");
       var cleanedInputPhone = safePhone(inputCred);
+      var regEmail = (cfg.company.email || "quickfix.indore@gmail.com").trim().toLowerCase();
 
       var isCredValid = (inputCred === regEmail || cleanedInputPhone === regPhone);
       var currentMasterPin = cfg.masterRecoveryKey || "4589";
-      var isMasterValid = (inputMaster.toLowerCase() === currentMasterPin.toLowerCase());
+      var isMasterValid = (inputMaster === currentMasterPin);
 
       if (!isCredValid || !isMasterValid) {
-        err.textContent = "पहचान सत्यापन विफल! क्रेडेंशियल या गुप्त मास्टर पिन गलत है।";
+        err.textContent = "सत्यापन असफल! फोन नंबर या गुप्त मास्टर पिन गलत है।";
         err.style.display = "block";
         return;
       }
 
       err.style.display = "none";
-      currentGeneratedOTP = String(Math.floor(100000 + Math.random() * 900000));
-      
-      if (otpExpiryTimer) clearTimeout(otpExpiryTimer);
-      otpExpiryTimer = setTimeout(function() {
-        currentGeneratedOTP = null;
-      }, 300000);
-
-      var waOwnerPhone = safePhone(cfg.company.whatsapp);
-      var waMsg = encodeURIComponent("सुरक्षा अलर्ट - QuickFix एडमिन पासवर्ड रीसेट OTP: *" + currentGeneratedOTP + "* (यह OTP 5 मिनट में समाप्त हो जाएगा)");
-      var waDirectUrl = "https://wa.me/91" + waOwnerPhone + "?text=" + waMsg;
-      
-      var waBtn = document.getElementById("resend-wa-otp-btn");
-      if (waBtn) {
-        waBtn.onclick = function() {
-          window.open(waDirectUrl, "_blank");
-        };
-      }
-
-      dispatchEmailJSOTP(false);
-
       document.getElementById("recovery-step-1").style.display = "none";
-      document.getElementById("recovery-step-2").style.display = "block";
-      document.getElementById("recovery-otp-input").value = "";
-      document.getElementById("otp-hint-text").textContent = "OTP मालिक के WhatsApp (" + waOwnerPhone.slice(-4) + ") व Gmail इनबॉक्स पर भेजा गया है।";
-      showToast("OTP सफलतापूर्वक जनरेट व प्रेषित किया गया!");
+      document.getElementById("recovery-step-3").style.display = "block";
+      document.getElementById("recovery-new-pwd-input").value = "";
+      showToast("सत्यापन सफल! अब नया पासवर्ड दर्ज करें।");
     }
 
-    function dispatchEmailJSOTP(isManualResend) {
-      var cfg = getConfig();
-      var ownerEmail = cfg.company.email || "quickfix.indore@gmail.com";
-
-      try {
-        if (window.emailjs && cfg.emailjsServiceId && cfg.emailjsTemplateId && cfg.emailjsPublicKey) {
-          emailjs.init({ publicKey: cfg.emailjsPublicKey });
-          emailjs.send(cfg.emailjsServiceId, cfg.emailjsTemplateId, {
-            to_email: ownerEmail,
-            otp_code: currentGeneratedOTP,
-            business_name: cfg.company.name || "QuickFix Services"
-          });
-        }
-      } catch(e) {}
-
-      if (isManualResend) {
-        showToast("OTP पुनः प्रेषित किया गया!");
-      }
-    }
-
-    function handleVerifySubmittedOTP() {
-      var entered = document.getElementById("recovery-otp-input").value.trim();
-      var err = document.getElementById("recovery-otp-error");
-
-      if (!currentGeneratedOTP) {
-        err.textContent = "OTP समाप्त हो चुका है! कृपया वापस जाकर दोबारा OTP जनरेट करें।";
-        err.style.display = "block";
-        return;
-      }
-
-      if (entered === currentGeneratedOTP) {
-        err.style.display = "none";
-        document.getElementById("recovery-step-2").style.display = "none";
-        document.getElementById("recovery-step-3").style.display = "block";
-        document.getElementById("recovery-new-pwd-input").value = "";
-        showToast("OTP सत्यापित हुआ! अब नया पासवर्ड दर्ज करें।");
-      } else {
-        err.textContent = "गलत OTP! कृपया WhatsApp या Gmail देखकर सही 6-अंकीय OTP डालें।";
-        err.style.display = "block";
-      }
-    }
-
-    function handleSaveRecoveredPassword() {
+    async function handleSaveRecoveredPassword() {
       var cfg = getConfig();
       var newP = document.getElementById("recovery-new-pwd-input").value.trim();
 
@@ -1638,12 +1572,12 @@
       }
 
       cfg.adminPin = newP;
-      saveConfig(cfg);
+      await saveConfig(cfg);
       hideForgotPasswordScreen();
-      showToast("नया पासवर्ड '" + newP + "' सेट हो गया! अब लॉगिन करें।");
+      showToast("नया पासवर्ड Cloud पर सुरक्षित सेव हो गया! अब लॉगिन करें।");
     }
 
-    function handlePasswordUpdate() {
+    async function handlePasswordUpdate() {
       var cfg = getConfig();
       var oldP = document.getElementById("pwd-old-input").value.trim();
       var newP = document.getElementById("pwd-new-input").value.trim();
@@ -1659,13 +1593,13 @@
       }
 
       cfg.adminPin = newP;
-      saveConfig(cfg);
+      await saveConfig(cfg);
       document.getElementById("pwd-old-input").value = "";
       document.getElementById("pwd-new-input").value = "";
-      showToast("नया लॉगिन पासवर्ड '" + newP + "' सेट हो गया!");
+      showToast("नया लॉगिन पासवर्ड Cloud पर सुरक्षित सेट हो गया!");
     }
 
-    function handleMasterKeyUpdate() {
+    async function handleMasterKeyUpdate() {
       var cfg = getConfig();
       var newKey = document.getElementById("setting-master-key-input").value.trim();
 
@@ -1675,8 +1609,8 @@
       }
 
       cfg.masterRecoveryKey = newKey;
-      saveConfig(cfg);
-      showToast("गुप्त मास्टर रिकवरी पिन सफलतापूर्वक अपडेट हो गया!");
+      await saveConfig(cfg);
+      showToast("गुप्त मास्टर रिकवरी पिन Cloud पर अपडेट हो गया!");
     }
 
     function switchAdminTab(tab) {
@@ -1694,7 +1628,6 @@
       if (activeBtn) activeBtn.className = "px-3.5 py-1.5 rounded-lg text-xs font-bold bg-blue-600 text-white whitespace-nowrap cursor-pointer";
     }
 
-    // 8. एडमिन सर्विस मैनेजर
     function renderAdminServicesManager() {
       var cfg = getConfig();
       var listDiv = document.getElementById("admin-services-list");
@@ -1726,7 +1659,7 @@
       });
     }
 
-    function handleAddNewService() {
+    async function handleAddNewService() {
       var cfg = getConfig();
       var nameHi = document.getElementById("new-serv-name-hi").value.trim();
       var nameEn = document.getElementById("new-serv-name-en").value.trim();
@@ -1759,7 +1692,7 @@
       };
 
       cfg.services.push(newServiceObj);
-      saveConfig(cfg);
+      await saveConfig(cfg);
 
       document.getElementById("new-serv-name-hi").value = "";
       document.getElementById("new-serv-name-en").value = "";
@@ -1767,10 +1700,10 @@
       document.getElementById("new-serv-tasks").value = "";
 
       renderAdminServicesManager();
-      showToast("नई सर्विस '" + nameHi + "' सफलतापूर्वक जुड़ गई और लाइव हो गई!");
+      showToast("नई सर्विस Cloud पर सेव हुई और सभी यूजर्स के लिए लाइव हो गई!");
     }
 
-    function handleDeleteService(idx) {
+    async function handleDeleteService(idx) {
       var cfg = getConfig();
       if (cfg.services.length <= 1) {
         alert("कम से कम 1 सर्विस चालू रहना आवश्यक है!");
@@ -1780,13 +1713,13 @@
       var servName = cfg.services[idx].name_hi;
       if (confirm("क्या आप वाकई '" + servName + "' सर्विस को हटाना चाहते हैं?")) {
         cfg.services.splice(idx, 1);
-        saveConfig(cfg);
+        await saveConfig(cfg);
         renderAdminServicesManager();
-        showToast("सर्विस हटा दी गई!");
+        showToast("सर्विस Cloud से हटा दी गई!");
       }
     }
 
-    function saveAllAdminServicesRates() {
+    async function saveAllAdminServicesRates() {
       var cfg = getConfig();
       cfg.services.forEach(function(s, idx) {
         var inp = document.getElementById("admin-rate-input-" + idx);
@@ -1795,19 +1728,37 @@
           s.rate = isNaN(val) ? s.rate : Math.max(0, val);
         }
       });
-      saveConfig(cfg);
-      showToast("सभी सेवाओं के रेट्स सुरक्षित अपडेट हो गए!");
+      await saveConfig(cfg);
+      showToast("सभी सेवाओं के रेट्स Cloud पर लाइव अपडेट हो गए!");
     }
 
-    // 9. एडमिन बुकिंग्स टेबल
-    function renderAdminBookings() {
-      var bks = getBookings();
+    async function renderAdminBookings() {
       var tbody = document.getElementById("admin-bookings-table-body");
       if (!tbody) return;
-      tbody.innerHTML = "";
+      tbody.innerHTML = "<tr><td colspan='5' class='p-5 text-center text-slate-400 font-medium'><i class='fa-solid fa-spinner fa-spin mr-1'></i> डेटाबेस से बुकिंग्स लोड हो रही हैं...</td></tr>";
+
+      var bks = [];
+      if (db) {
+        try {
+          var snapshot = await db.collection("bookings").get();
+          snapshot.forEach(function(doc) {
+            bks.push(doc.data());
+          });
+          bks.sort(function(a, b) {
+            return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
+          });
+        } catch(e) {
+          console.warn("Could not fetch Firestore bookings:", e);
+        }
+      }
 
       if (bks.length === 0) {
-        tbody.innerHTML = "<tr><td colspan='5' class='p-6 text-center text-slate-400 font-medium'>No bookings yet. New bookings will appear here instantly.</td></tr>";
+        bks = getBookings();
+      }
+
+      tbody.innerHTML = "";
+      if (bks.length === 0) {
+        tbody.innerHTML = "<tr><td colspan='5' class='p-6 text-center text-slate-400 font-medium'>No bookings found. Live customer bookings will appear here.</td></tr>";
         return;
       }
 
@@ -1815,12 +1766,18 @@
         var b = bks[i];
         var tr = document.createElement("tr");
         tr.className = "hover:bg-slate-50";
+
+        var mapBadgeHtml = "";
+        if (b.gpsMapUrl) {
+          mapBadgeHtml = "<a href='" + b.gpsMapUrl + "' target='_blank' class='inline-flex items-center text-[10px] bg-blue-100 hover:bg-blue-200 text-blue-800 font-bold px-2 py-0.5 rounded-full mt-1'><i class='fa-solid fa-location-dot mr-1 text-red-500'></i> Live GPS Map</a>";
+        }
+
         tr.innerHTML = 
-          "<td class='p-3 font-mono font-bold text-blue-700'>" + b.id + "<br><span class='text-[10px] text-slate-400 font-sans'>" + b.date + "</span></td>" +
+          "<td class='p-3 font-mono font-bold text-blue-700'>" + b.id + "<br><span class='text-[10px] text-slate-400 font-sans'>" + (b.date || "") + "</span></td>" +
           "<td class='p-3'><strong>" + b.name + "</strong><br><span class='text-slate-500'>" + b.phone + "</span></td>" +
           "<td class='p-3'>" + b.service + "<br><span class='text-blue-600 font-bold'>₹" + b.rate + "</span></td>" +
-          "<td class='p-3 max-w-xs truncate'>" + b.house + ", " + b.society + "<br><span class='text-amber-700 font-bold'>Landmark: " + b.landmark + "</span></td>" +
-          "<td class='p-3 text-right space-x-1'>" +
+          "<td class='p-3 max-w-xs'>" + (b.house || "") + ", " + (b.society || "") + "<br><span class='text-amber-700 font-bold'>Landmark: " + (b.landmark || "") + "</span><br>" + mapBadgeHtml + "</td>" +
+          "<td class='p-3 text-right space-x-1 whitespace-nowrap'>" +
             "<button type='button' onclick='fillSlipFromBooking(" + i + ")' class='bg-blue-100 hover:bg-blue-200 text-blue-800 px-2.5 py-1 rounded text-[11px] font-bold cursor-pointer'>Bill / Edit</button>" +
             "<a href='https://wa.me/91" + safePhone(b.phone) + "' target='_blank' class='bg-emerald-100 hover:bg-emerald-200 text-emerald-800 px-2.5 py-1 rounded text-[11px] font-bold inline-block'>WhatsApp</a>" +
           "</td>";
@@ -1828,27 +1785,39 @@
       }
     }
 
-    function exportBookingsToCSV() {
-      var bks = getBookings();
+    async function exportBookingsToCSV() {
+      var bks = [];
+      if (db) {
+        try {
+          var snapshot = await db.collection("bookings").get();
+          snapshot.forEach(function(doc) {
+            bks.push(doc.data());
+          });
+        } catch(e) {}
+      }
+      if (bks.length === 0) {
+        bks = getBookings();
+      }
+
       if (!bks.length) {
         showToast("डाउनलोड के लिए कोई डेटा नहीं है।");
         return;
       }
-      var rows = ["ID,Date,Name,Phone,Service,Rate,House,Society,Landmark,City"];
+
+      var rows = ["ID,Date,Name,Phone,Service,Rate,House,Society,Landmark,City,GPS_Map_URL,Latitude,Longitude"];
       for (var i = 0; i < bks.length; i++) {
         var b = bks[i];
-        rows.push('"' + b.id + '","' + b.date + '","' + b.name + '","' + b.phone + '","' + b.service + '","' + b.rate + '","' + b.house + '","' + b.society + '","' + b.landmark + '","' + b.city + '"');
+        rows.push('"' + b.id + '","' + b.date + '","' + b.name + '","' + b.phone + '","' + b.service + '","' + b.rate + '","' + (b.house || "") + '","' + (b.society || "") + '","' + (b.landmark || "") + '","' + (b.city || "") + '","' + (b.gpsMapUrl || "") + '","' + (b.gpsLatitude || "") + '","' + (b.gpsLongitude || "") + '"');
       }
       var csvContent = rows.join("\n");
       var blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
       var link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
-      link.download = "QuickFix_Bookings.csv";
+      link.download = "QuickFix_Bookings_with_GPS.csv";
       link.click();
-      showToast("CSV फाइल डाउनलोड हो गई!");
+      showToast("GPS विवरण के साथ CSV फाइल डाउनलोड हो गई!");
     }
 
-    // 10. बिल सुधार एवं रसीद एडिटर
     var currentSlipRows = [];
 
     function resetSlipToBlank() {
@@ -1987,7 +1956,6 @@
       window.open("https://wa.me/91" + phone + "?text=" + waMsg, "_blank");
     }
 
-    // 11. सेटिंग्स
     function loadAdminSettings() {
       var cfg = getConfig();
       document.getElementById("setting-comp-name").value = cfg.company.name || "";
@@ -1999,7 +1967,7 @@
       document.getElementById("setting-master-key-input").value = cfg.masterRecoveryKey || "4589";
     }
 
-    function saveAdminSettings() {
+    async function saveAdminSettings() {
       var cfg = getConfig();
       
       var nameVal = document.getElementById("setting-comp-name").value.trim();
@@ -2016,19 +1984,13 @@
       cfg.company.upiId = upiVal || DEFAULT_CONFIG.company.upiId;
       cfg.company.address = addrVal || DEFAULT_CONFIG.company.address;
 
-      saveConfig(cfg);
-      showToast("ऑफिस संपर्क विवरण सुरक्षित सेव हो गए!");
+      await saveConfig(cfg);
+      showToast("ऑफिस संपर्क Cloud पर सुरक्षित सेव हुआ और सभी कस्टमर्स के लिए लाइव हो गया!");
     }
 
-    // इनिशियलाइज
+    // App Initialization with Real-time Sync
     window.addEventListener("DOMContentLoaded", function() {
-      try {
-        var savedLang = localStorage.getItem("qf_app_lang_pref_v10");
-        if (savedLang === "en" || savedLang === "hi") {
-          currentLang = savedLang;
-        }
-      } catch(e) {}
-      applyLanguageToUI();
+      initLiveCloudConfigSync();
     });
   </script>
 </body>
