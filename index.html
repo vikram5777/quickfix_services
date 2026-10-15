@@ -15,9 +15,29 @@
 
   <style>
     @media print {
+      @page {
+        size: A4 portrait;
+        margin: 10mm;
+      }
+      html, body {
+        height: auto !important;
+        overflow: visible !important;
+        background: #fff !important;
+        padding-bottom: 0 !important;
+      }
       body * { visibility: hidden !important; }
       #printable-slip, #printable-slip * { visibility: visible !important; }
-      #printable-slip { position: absolute; left: 0; top: 0; width: 100%; border: none !important; box-shadow: none !important; padding: 0 !important; }
+      #printable-slip {
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
       .no-print { display: none !important; }
     }
     .safe-wa-btn {
@@ -48,7 +68,7 @@
         <span class="hidden md:inline"><i class="fa-solid fa-clock mr-1 text-slate-500"></i> सुबह 8:00 AM - रात 9:00 PM</span>
         <span class="inline-flex items-center text-emerald-400 font-bold">
           <span class="w-2 h-2 rounded-full bg-emerald-400 mr-1.5 animate-pulse"></span>
-          डोरस्टेप सर्विस एक्टिव
+          डोरस्टेप सर्विस एक्टिव (इंदौर)
         </span>
       </div>
     </div>
@@ -63,7 +83,7 @@
         </div>
         <div>
           <h1 id="brand-header-name" class="font-black text-lg md:text-xl tracking-tight text-slate-900 leading-tight">QuickFix Services</h1>
-          <p id="t-brand-tag" class="text-xs text-slate-500 font-medium">होम और ऑफिस टेक्निकल मेंटेनेंस</p>
+          <p id="t-brand-tag" class="text-xs text-slate-500 font-medium">होम और ऑफिस टेक्निकल मेंटेनेंस - इंदौर</p>
         </div>
       </div>
 
@@ -90,21 +110,37 @@
   </header>
 
   <!-- 3. Hero Section -->
-  <section class="max-w-6xl mx-auto px-4 pt-8 pb-8 text-center md:text-left">
+  <section class="max-w-6xl mx-auto px-4 pt-8 pb-6 text-center md:text-left">
     <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
       <div class="md:col-span-7 space-y-4">
         <span class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-bold">
           <span class="w-2 h-2 rounded-full bg-blue-600 animate-ping"></span>
-          <span id="t-hero-badge">वेरिफाइड लोकल कारीगर • सीधा व पारदर्शी हिसाब</span>
+          <span id="t-hero-badge">⚡ 30-60 Min Doorstep Arrival • ऑन-स्पॉट लाइव टेस्टिंग</span>
         </span>
         <h2 id="t-hero-title" class="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-tight">
           इलेक्ट्रीशियन, AC, प्लम्बर, बढ़ई, पेंटर और सुरक्षा गार्ड
         </h2>
         <p id="t-hero-desc" class="text-sm sm:text-base text-slate-600 leading-relaxed max-w-xl">
-          कोई फर्जी वारंटी या छुपा टैक्स नहीं। काम पूरा होने के बाद आपके सामने लाइव टेस्टिंग होगी, तसल्ली होने पर ही पेमेंट करें।
+          कोई फर्जी वारंटी या छुपा चार्ज नहीं। काम पूरा होने के बाद आपके सामने लाइव टेस्टिंग होगी, तसल्ली होने पर ही पेमेंट करें।
         </p>
 
-        <div class="flex flex-wrap gap-3 pt-2 justify-center md:justify-start">
+        <!-- Trust Badges -->
+        <div class="grid grid-cols-3 gap-2 py-2 max-w-lg mx-auto md:mx-0 text-center">
+          <div class="p-2 bg-blue-50 rounded-xl border border-blue-100">
+            <span class="text-blue-700 font-black text-sm block">⚡ 30-60 Min</span>
+            <span class="text-[10px] text-slate-500 font-bold">सुपरफास्ट अराइवल</span>
+          </div>
+          <div class="p-2 bg-emerald-50 rounded-xl border border-emerald-100">
+            <span class="text-emerald-700 font-black text-sm block">🛡️ 100% Tested</span>
+            <span class="text-[10px] text-slate-500 font-bold">सामने चेकिंग</span>
+          </div>
+          <div class="p-2 bg-amber-50 rounded-xl border border-amber-100">
+            <span class="text-amber-800 font-black text-sm block">💰 ₹0 Hidden</span>
+            <span class="text-[10px] text-slate-500 font-bold">पारदर्शी बिल</span>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap gap-3 pt-1 justify-center md:justify-start">
           <a href="#booking-section" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-3 rounded-xl shadow-lg shadow-blue-200 transition text-sm flex items-center space-x-2">
             <i class="fa-solid fa-calendar-check"></i>
             <span id="t-book-now">कारीगर बुक करें</span>
@@ -115,7 +151,7 @@
           </a>
         </div>
 
-        <div class="pt-3 grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-lg mx-auto md:mx-0">
+        <div class="pt-2 grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-lg mx-auto md:mx-0">
           <a id="hero-call-card" href="tel:8839832064" class="flex items-center space-x-3 bg-white border border-emerald-200 hover:border-emerald-500 hover:bg-emerald-50/60 p-3 rounded-2xl shadow-sm transition text-left group">
             <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-lg shrink-0 group-hover:scale-105 transition">
               <i class="fa-solid fa-phone"></i>
@@ -146,17 +182,21 @@
         <ul class="space-y-3 text-xs sm:text-sm text-slate-700">
           <li class="flex items-start space-x-2.5">
             <i class="fa-solid fa-check text-emerald-600 mt-0.5"></i>
-            <span id="t-rule-1"><strong>डोरस्टेप विजिट चार्ज:</strong> केवल ₹500 (काम करवाने पर फाइनल बिल में पूरी तरह एडजस्ट)।</span>
+            <span id="t-rule-1"><strong>डोरस्टेप विजिट चार्ज:</strong> सर्विस के अनुसार निर्धारित दर ही विजिट चार्ज है (काम करवाने पर फाइनल बिल में पूरी तरह एडजस्ट)।</span>
           </li>
           <li class="flex items-start space-x-2.5">
             <i class="fa-solid fa-check text-emerald-600 mt-0.5"></i>
-            <span id="t-rule-2"><strong>सामने लाइव टेस्टिंग:</strong> उपकरण चालू कराकर चेक कराने के बाद ही बिलिंग।</span>
+            <span id="t-rule-2"><strong>सामने लाइव टेस्टिंग:</strong> उपकरण चालू कराकर आपके सामने चेक कराने के बाद ही बिलिंग।</span>
           </li>
           <li class="flex items-start space-x-2.5">
             <i class="fa-solid fa-check text-emerald-600 mt-0.5"></i>
-            <span id="t-rule-3"><strong>डिजिटल सेवा रसीद:</strong> बदले गए सामान और लेबर का पारदर्शी हिसाब।</span>
+            <span id="t-rule-3"><strong>डिजिटल सेवा रसीद:</strong> बदले गए ओरिजिनल स्पेयर पार्ट्स और लेबर का 1-पेज पारदर्शी हिसाब।</span>
           </li>
         </ul>
+        <div class="mt-4 pt-3 border-t border-blue-200/60 text-xs text-blue-800 font-medium">
+          <i class="fa-solid fa-map-pin mr-1 text-red-500"></i>
+          <strong>प्रमुख सर्विस एरिया:</strong> लिम्बोदी, भंवरकुआं, खंडवा रोड, रानी बाग, राजेंद्र नगर, सपना संगीता एवं दक्षिण इंदौर।
+        </div>
       </div>
     </div>
   </section>
@@ -184,7 +224,7 @@
           <p id="t-form-subtitle" class="text-xs text-slate-400 mt-0.5">विवरण दर्ज करें, कारीगर आपसे तुरंत संपर्क करेगा</p>
         </div>
         <span id="t-form-badge" class="text-xs bg-blue-600/30 text-blue-300 border border-blue-400/30 px-3 py-1 rounded-full font-semibold">
-          विजिट चार्ज ₹500 (बिल में एडजस्ट)
+          विजिट चार्ज (बिल में एडजस्ट)
         </span>
       </div>
 
@@ -200,15 +240,25 @@
           </div>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div>
             <label id="t-label-service" class="block text-xs font-bold text-slate-700 uppercase mb-1">सर्विस चुनें *</label>
             <select id="cust-service" onchange="updateEstimatedPrice()" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-600 focus:outline-none font-medium"></select>
           </div>
           <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">📅 सर्विस तारीख *</label>
+            <input type="date" id="cust-date" required class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-600 focus:outline-none">
+          </div>
+          <div>
             <label id="t-label-time" class="block text-xs font-bold text-slate-700 uppercase mb-1">समय स्लॉट चुनें *</label>
             <select id="cust-time" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-600 focus:outline-none"></select>
           </div>
+        </div>
+
+        <!-- Problem / Issue Description Box -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase mb-1">🔧 क्या समस्या आ रही है? (वैकल्पिक)</label>
+          <input type="text" id="cust-problem" placeholder="उदा. AC कूलिंग नहीं कर रहा, नल टपक रहा है, नया फैन लगाना है" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-600 focus:outline-none">
         </div>
 
         <!-- Address & GPS Auto-detect Box -->
@@ -217,7 +267,7 @@
             <span id="t-label-address" class="text-xs font-bold text-slate-600 uppercase tracking-wider block">काम का पता (Site Address)</span>
             <span id="gps-status-badge" class="text-[11px] font-bold text-blue-700 bg-blue-100 px-2.5 py-0.5 rounded-full flex items-center space-x-1">
               <i class="fa-solid fa-location-crosshairs animate-pulse"></i>
-              <span>GPS ऑटो डिटेक्ट एक्टिव</span>
+              <span>फास्ट GPS एक्टिव</span>
             </span>
           </div>
 
@@ -227,28 +277,28 @@
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <input type="text" id="cust-landmark" required placeholder="प्रसिद्ध लैंडमार्क (उदा. पानी की टंकी / मंदिर के पास) *" class="w-full px-3 py-2 bg-amber-50 border border-amber-200 rounded-lg text-sm focus:ring-1 focus:ring-amber-500 font-medium">
-            <input type="text" id="cust-city" required placeholder="शहर एवं पिनकोड" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm">
+            <input type="text" id="cust-city" required placeholder="शहर एवं पिनकोड" value="Indore 452020" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm">
           </div>
           <p class="text-[11px] text-slate-500 italic flex items-center">
             <i class="fa-solid fa-circle-info text-blue-500 mr-1.5"></i>
-            सबमिट करने पर आपके फोन/कंप्यूटर से सटीक लोकेशन डिटेक्ट होकर कारीगर को मैप रूट मिल जाएगा।
+            सबमिट करते ही बैकग्राउंड में आपकी लोकेशन मैप से लिंक हो जाएगी। कमजोर GPS होने पर ऊपर दिया पता उपयोग होगा।
           </p>
         </div>
 
         <div class="flex flex-wrap items-center justify-between p-4 bg-blue-50 border border-blue-100 rounded-2xl gap-2">
           <div>
-            <span id="t-rate-label" class="text-xs text-blue-700 font-bold block">शुरुआती सर्विस चार्ज (Starting Rate):</span>
+            <span id="t-rate-label" class="text-xs text-blue-700 font-bold block">Doorstep Visit / Inspection Charge:</span>
             <span id="form-rate-display" class="text-2xl font-black text-blue-900">₹199</span>
           </div>
           <div class="text-right text-xs text-slate-600">
-            <span id="t-rate-note" class="font-bold text-amber-900 block">विजिट चार्ज: ₹500 (फाइनल बिल में पूरा एडजस्ट)</span>
+            <span id="t-rate-note" class="font-bold text-emerald-800 block">✓ काम करवाने पर पूरा चार्ज फाइनल बिल में एडजस्ट</span>
             <span class="text-[11px] text-slate-500">कोई एक्स्ट्रा टैक्स/GST नहीं • कैश या UPI</span>
           </div>
         </div>
 
         <button type="submit" id="submit-booking-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-extrabold py-3.5 rounded-xl shadow-lg shadow-blue-200 transition text-base flex items-center justify-center space-x-2 cursor-pointer">
           <i class="fa-solid fa-paper-plane"></i>
-          <span id="t-submit-btn">बुकिंग दर्ज करें (GPS लोकेशन के साथ)</span>
+          <span id="t-submit-btn">बुकिंग दर्ज करें (Confirm Booking)</span>
         </button>
       </form>
     </div>
@@ -266,11 +316,11 @@
             <h4 id="footer-comp-name" class="font-black text-base tracking-tight text-white">QuickFix Services</h4>
           </div>
           <p class="text-xs text-slate-400 leading-relaxed">
-            आपके शहर में भरोसेमंद होम और कमर्शियल मेंटेनेंस सेवाएं। 100% ऑन-साइट लाइव टेस्टिंग व डिजिटल रसीद।
+            इंदौर में भरोसेमंद होम और कमर्शियल मेंटेनेंस सेवाएं। 100% ऑन-साइट लाइव टेस्टिंग व डिजिटल रसीद।
           </p>
           <div class="pt-1">
             <span class="inline-block bg-blue-900/60 text-blue-300 border border-blue-700/50 text-[11px] px-2.5 py-1 rounded-lg font-medium">
-              विजिट चार्ज ₹500 (बिल में एडजस्ट)
+              विजिट चार्ज फाइनल बिल में एडजस्ट
             </span>
           </div>
         </div>
@@ -314,7 +364,7 @@
               </div>
               <div>
                 <p class="text-[10px] text-slate-400 font-bold uppercase">ऑफिस पता</p>
-                <p id="footer-addr-display" class="text-xs text-slate-300">भंवरकुआं मेन रोड, इंदौर, म.प्र.</p>
+                <p id="footer-addr-display" class="text-xs text-slate-300">लिम्बोदी / भंवरकुआं मेन रोड, इंदौर, म.प्र.</p>
               </div>
             </div>
           </div>
@@ -360,9 +410,10 @@
       <div class="p-3 bg-slate-50 border border-slate-200 rounded-2xl text-left text-xs space-y-1">
         <p><strong id="t-modal-lbl-cust">ग्राहक:</strong> <span id="modal-cust-name"></span></p>
         <p><strong id="t-modal-lbl-serv">सर्विस:</strong> <span id="modal-cust-service"></span></p>
+        <p><strong>तारीख व समय:</strong> <span id="modal-cust-datetime"></span></p>
         <p><strong id="t-modal-lbl-addr">पता:</strong> <span id="modal-cust-address"></span></p>
         <p id="modal-gps-link-container" class="pt-1 text-blue-700 font-semibold"></p>
-        <p class="text-amber-800 font-bold pt-1"><i class="fa-solid fa-info-circle mr-1"></i>विजिट चार्ज ₹500 कारीगर आने पर काम होने पर बिल में घट जाएगा।</p>
+        <p class="text-emerald-800 font-bold pt-1"><i class="fa-solid fa-circle-check mr-1"></i>विजिट चार्ज कारीगर आने पर काम होने पर फाइनल बिल में पूरी तरह एडजस्ट हो जाएगा।</p>
       </div>
 
       <div class="p-3 bg-blue-50 border border-blue-100 rounded-2xl">
@@ -437,7 +488,7 @@
         </div>
       </div>
 
-      <!-- Password Recovery Screen (Master PIN Direct Recovery) -->
+      <!-- Password Recovery Screen -->
       <div id="admin-recovery-screen" style="display: none;" class="p-8 text-center max-w-sm mx-auto my-auto space-y-4">
         <div class="w-14 h-14 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto text-2xl shadow-inner">
           <i class="fa-solid fa-user-shield"></i>
@@ -513,7 +564,7 @@
                 <tr>
                   <th class="p-3">ID / Date</th>
                   <th class="p-3">Customer</th>
-                  <th class="p-3">Service</th>
+                  <th class="p-3">Service & Issue</th>
                   <th class="p-3">Address, Landmark & GPS</th>
                   <th class="p-3 text-right">Actions</th>
                 </tr>
@@ -592,19 +643,19 @@
           </div>
         </div>
 
-        <!-- Tab 3: Bill Editor & Slip -->
+        <!-- Tab 3: Bill Editor & Slip (SINGLE PAGE PDF OPTIMIZED) -->
         <div id="admin-tab-slip" style="display: none;" class="space-y-4">
-          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 flex flex-wrap gap-2 justify-between items-center">
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 flex flex-wrap gap-2 justify-between items-center no-print">
             <div>
               <h5 class="font-bold text-sm text-slate-800">Doorstep Work Receipt / बिल सुधार टूल</h5>
-              <p class="text-[11px] text-slate-500">यहाँ से बिल में हुई कोई भी गलती सुधारें, नया सामान जोड़ें या बिल रीसेट करें</p>
+              <p class="text-[11px] text-slate-500">लाइव कैलकुलेशन व 1-पेज साफ-सुथरा A4 PDF</p>
             </div>
             <div class="flex flex-wrap gap-2">
               <button type="button" onclick="resetSlipToBlank()" class="bg-amber-100 hover:bg-amber-200 text-amber-900 px-3 py-1.5 rounded-lg text-xs font-bold cursor-pointer">
                 <i class="fa-solid fa-rotate-left mr-1"></i> नया / खाली बिल (Clear)
               </button>
               <button type="button" onclick="printSlip()" class="bg-slate-800 hover:bg-black text-white px-3 py-1.5 rounded-lg text-xs font-bold cursor-pointer">
-                <i class="fa-solid fa-print mr-1"></i> Print / PDF
+                <i class="fa-solid fa-print mr-1"></i> Print / 1-Page PDF
               </button>
               <button type="button" onclick="sendSlipOnWhatsApp()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold cursor-pointer">
                 <i class="fa-brands fa-whatsapp mr-1"></i> Send on WhatsApp
@@ -612,11 +663,12 @@
             </div>
           </div>
 
-          <div id="printable-slip" class="bg-white p-6 border border-slate-300 rounded-2xl shadow-sm text-xs space-y-4">
+          <!-- Printable Slip Content -->
+          <div id="printable-slip" class="bg-white p-6 border border-slate-300 rounded-2xl shadow-sm text-xs space-y-4 max-w-2xl mx-auto">
             <div class="flex justify-between items-start border-b pb-3">
               <div>
-                <h4 id="slip-comp-name" class="font-black text-base text-slate-900">QuickFix Services</h4>
-                <p id="slip-comp-address" class="text-slate-500 text-[11px]">Bhawarkua Main Road, Indore</p>
+                <h4 id="slip-comp-name" class="font-black text-lg text-slate-900">QuickFix Services</h4>
+                <p id="slip-comp-address" class="text-slate-500 text-[11px]">लिम्बोदी / भंवरकुआं मेन रोड, इंदौर</p>
                 <p id="slip-comp-contact" class="text-slate-500 text-[11px]">Phone: 8839832064</p>
               </div>
               <div class="text-right">
@@ -640,18 +692,18 @@
               </div>
               <div>
                 <label class="block text-[10px] font-bold text-slate-600">Site Address / साइट का पता</label>
-                <input type="text" id="slip-client-addr" placeholder="उदा. विजय नगर, इंदौर" class="w-full p-1.5 border rounded bg-white font-medium">
+                <input type="text" id="slip-client-addr" placeholder="उदा. लिम्बोदी, इंदौर" class="w-full p-1.5 border rounded bg-white font-medium">
               </div>
             </div>
 
-            <table class="w-full text-left">
+            <table class="w-full text-left border-collapse">
               <thead class="bg-slate-100 text-slate-700">
                 <tr>
-                  <th class="p-2">Description / काम व सामान की विवरणी</th>
-                  <th class="p-2 w-16 text-center">Qty / मात्रा</th>
-                  <th class="p-2 w-24 text-right">Rate / रेट (₹)</th>
-                  <th class="p-2 w-24 text-right">Total (₹)</th>
-                  <th class="p-2 w-10 text-center no-print">हटाएं</th>
+                  <th class="p-2 border-b">Description / काम व सामान की विवरणी</th>
+                  <th class="p-2 w-16 text-center border-b">Qty</th>
+                  <th class="p-2 w-24 text-right border-b">Rate (₹)</th>
+                  <th class="p-2 w-24 text-right border-b">Total (₹)</th>
+                  <th class="p-2 w-10 text-center no-print border-b">Action</th>
                 </tr>
               </thead>
               <tbody id="slip-items-body" class="divide-y divide-slate-100"></tbody>
@@ -659,9 +711,9 @@
 
             <div class="flex justify-between items-center pt-1 no-print">
               <button type="button" onclick="addSlipRow()" class="bg-blue-50 hover:bg-blue-100 text-blue-700 px-3 py-1.5 rounded-lg font-bold text-[11px] cursor-pointer">
-                <i class="fa-solid fa-plus mr-1"></i> नया काम / सामान जोड़ें (Add Item)
+                <i class="fa-solid fa-plus mr-1"></i> नया सामान / काम जोड़ें (Add Item)
               </button>
-              <span class="text-[10px] text-slate-400">रेट या मात्रा बदलते ही कुल योग अपने-आप ठीक होगा</span>
+              <span class="text-[10px] text-slate-400">रेट लिखते ही कुल योग तुरंत स्क्रीन पर अपडेट होगा</span>
             </div>
 
             <div class="flex justify-end pt-3 border-t">
@@ -680,10 +732,15 @@
                 </div>
               </div>
             </div>
+
+            <div class="pt-3 border-t text-[10px] text-slate-400 flex justify-between items-center">
+              <span>* ओरिजिनल स्पेयर पार्ट्स पर ब्रांड वारंटी लागू। काम के बाद ऑन-स्पॉट लाइव टेस्टिंग मान्य।</span>
+              <span class="font-bold text-slate-600">QuickFix Services Indore</span>
+            </div>
           </div>
         </div>
 
-        <!-- Tab 4: Settings & Security (Firebase Live Synced) -->
+        <!-- Tab 4: Settings & Security -->
         <div id="admin-tab-settings" style="display: none;" class="space-y-5">
           <div class="bg-amber-50 border border-amber-200 p-4 rounded-2xl space-y-3">
             <h5 class="text-xs font-bold text-amber-900 uppercase flex items-center space-x-1">
@@ -738,7 +795,7 @@
               </div>
               <div>
                 <label class="block font-bold text-slate-700 mb-1">Office Address / ऑफिस का पता</label>
-                <input type="text" id="setting-addr" placeholder="भंवरकुआं मेन रोड, इंदौर, म.प्र." class="w-full p-2.5 border rounded-lg bg-white">
+                <input type="text" id="setting-addr" placeholder="लिम्बोदी / भंवरकुआं मेन रोड, इंदौर, म.प्र." class="w-full p-2.5 border rounded-lg bg-white">
               </div>
             </div>
             <button type="button" onclick="saveAdminSettings()" class="mt-4 bg-slate-900 hover:bg-black text-white font-bold px-6 py-2.5 rounded-xl text-xs shadow-md cursor-pointer flex items-center space-x-1.5">
@@ -760,7 +817,7 @@
   <!-- Toast Message -->
   <div id="toast-notify" style="display: none;" class="fixed top-5 right-5 z-50 bg-slate-900 text-white px-4 py-2.5 rounded-xl shadow-2xl text-xs font-bold border border-slate-700 transition"></div>
 
-  <!-- JavaScript Engine (Firebase Real-Time Firestore Sync + GPS) -->
+  <!-- JavaScript Engine (Firebase Real-Time Firestore Sync + GPS + Single-page Bill) -->
   <script>
     // --- 0. FIREBASE INITIALIZATION ---
     var firebaseConfig = {
@@ -786,29 +843,29 @@
 
     var translations = {
       hi: {
-        brandTag: "होम और ऑफिस टेक्निकल मेंटेनेंस",
+        brandTag: "होम और ऑफिस टेक्निकल मेंटेनेंस - इंदौर",
         callNow: "कॉल करें",
         callLabel: "कॉल करें",
         cardPhoneLbl: "सीधा कॉल करें (Click to Call):",
         cardEmailLbl: "ऑफिशियल ईमेल (Mail Us):",
         adminBtn: "एडमिन",
         langBtnLabel: "English",
-        heroBadge: "वेरिफाइड लोकल कारीगर • सीधा व पारदर्शी हिसाब",
+        heroBadge: "⚡ 30-60 Min Doorstep Arrival • ऑन-स्पॉट लाइव टेस्टिंग",
         heroTitle: "इलेक्ट्रीशियन, AC, प्लम्बर, बढ़ई, पेंटर और सुरक्षा गार्ड",
-        heroDesc: "कोई फर्जी वारंटी या छुपा टैक्स नहीं। काम पूरा होने के बाद आपके सामने लाइव टेस्टिंग होगी, तसल्ली होने पर ही पेमेंट करें।",
+        heroDesc: "कोई फर्जी वारंटी या छुपा चार्ज नहीं। काम पूरा होने के बाद आपके सामने लाइव टेस्टिंग होगी, तसल्ली होने पर ही पेमेंट करें।",
         bookNowBtn: "कारीगर बुक करें",
         chatWaBtn: "व्हाट्सएप पर बात करें",
         rulesTitle: "सेवा से जुड़े स्पष्ट नियम",
-        rule1: "<strong>डोरस्टेप विजिट चार्ज:</strong> केवल ₹500 (काम करवाने पर फाइनल बिल में पूरी तरह एडजस्ट)।",
+        rule1: "<strong>डोरस्टेप विजिट चार्ज:</strong> सर्विस के अनुसार निर्धारित दर ही विजिट चार्ज है (काम करवाने पर फाइनल बिल में पूरी तरह एडजस्ट)।",
         rule2: "<strong>सामने लाइव टेस्टिंग:</strong> उपकरण चालू कराकर चेक कराने के बाद ही बिलिंग।",
-        rule3: "<strong>डिजिटल सेवा रसीद:</strong> बदले गए सामान और लेबर का पारदर्शी हिसाब।",
+        rule3: "<strong>डिजिटल सेवा रसीद:</strong> बदले गए ओरिजिनल स्पेयर पार्ट्स और लेबर का पारदर्शी हिसाब।",
         servicesTitle: "हमारी सेवाएं और क्या-क्या काम करते हैं",
         servicesSubtitle: "प्रत्येक सेवा के तहत होने वाले सभी कार्यों का विवरण देखें व कार्ड पर क्लिक करके बुक करें",
         scopeHeader: "क्या-क्या काम करते हैं (Work Done):",
         cardBtn: "बुक करें",
         formTitle: "सर्विस बुकिंग फॉर्म",
         formSubtitle: "विवरण दर्ज करें, कारीगर आपसे तुरंत संपर्क करेगा",
-        formBadge: "विजिट चार्ज ₹500 (बिल में एडजस्ट)",
+        formBadge: "विजिट चार्ज (बिल में एडजस्ट)",
         labelName: "आपका नाम *",
         phName: "अपना नाम दर्ज करें",
         labelPhone: "मोबाइल / व्हाट्सएप नंबर *",
@@ -816,19 +873,20 @@
         labelService: "सर्विस चुनें *",
         labelTime: "समय स्लॉट चुनें *",
         timeSlots: [
-          "तुरंत चाहिए (इमरजेंसी 60-90 मिनट)",
+          "तुरंत चाहिए (इमरजेंसी 30-60 मिनट)",
           "सुबह (9:00 AM - 12:00 PM)",
-          "दोपहर (12:00 PM - 4:00 PM)",
-          "शाम (4:00 PM - 8:00 PM)"
+          "दोपहर (12:00 PM - 3:00 PM)",
+          "शाम (3:00 PM - 6:00 PM)",
+          "रात (6:00 PM - 9:00 PM)"
         ],
         labelAddress: "काम का पता (Site Address)",
         phHouse: "मकान / फ्लैट / दुकान नंबर",
         phSociety: "बिल्डिंग / सोसायटी / कॉलोनी का नाम",
         phLandmark: "प्रसिद्ध लैंडमार्क (उदा. पानी की टंकी / मंदिर के पास) *",
         phCity: "शहर एवं पिनकोड",
-        rateLabel: "शुरुआती सर्विस चार्ज (Starting Rate):",
-        rateNote: "विजिट चार्ज: ₹500 (फाइनल बिल में पूरा एडजस्ट)",
-        submitBtn: "बुकिंग दर्ज करें (GPS लोकेशन के साथ)",
+        rateLabel: "Doorstep Visit / Inspection Charge:",
+        rateNote: "✓ काम करवाने पर पूरा चार्ज फाइनल बिल में एडजस्ट",
+        submitBtn: "बुकिंग दर्ज करें (Confirm Booking)",
         modalSuccessTitle: "बुकिंग दर्ज हो चुकी है!",
         modalBookingLbl: "बुकिंग आईडी:",
         modalLblCust: "ग्राहक:",
@@ -839,29 +897,29 @@
         modalBtnClose: "बंद करें (Close)"
       },
       en: {
-        brandTag: "Home & Office Technical Maintenance",
+        brandTag: "Home & Office Technical Maintenance - Indore",
         callNow: "Call Now",
         callLabel: "Call Now",
         cardPhoneLbl: "Direct Call (Click to Call):",
         cardEmailLbl: "Official Email (Mail Us):",
         adminBtn: "Admin",
         langBtnLabel: "हिन्दी",
-        heroBadge: "Verified Local Technicians • Transparent Pricing",
+        heroBadge: "⚡ 30-60 Min Doorstep Arrival • Live On-Site Testing",
         heroTitle: "Electrician, AC, Plumbing, Carpenter, Painting & Security",
-        heroDesc: "No fake warranty or hidden taxes. Complete on-site testing in front of you, pay only after 100% satisfaction.",
+        heroDesc: "No fake warranty or hidden charges. Live on-site testing in front of you, pay only after 100% satisfaction.",
         bookNowBtn: "Book Technician",
         chatWaBtn: "Chat on WhatsApp",
         rulesTitle: "Clear Service Terms",
-        rule1: "<strong>Doorstep Visit Charge:</strong> Only ₹500 (100% adjustable into final repair bill).",
+        rule1: "<strong>Doorstep Visit Charge:</strong> Displayed service rate is visit charge (100% adjustable into final bill).",
         rule2: "<strong>Live Testing On-Site:</strong> Appliances tested and verified in front of you before payment.",
-        rule3: "<strong>Digital Work Receipt:</strong> Clear transparent accounting of labor & replacement spares.",
+        rule3: "<strong>Digital Work Receipt:</strong> Clear transparent accounting of labor & genuine spares.",
         servicesTitle: "Our Services & Detailed Scope of Work",
         servicesSubtitle: "Check the full list of repairs handled under each service & click to book",
         scopeHeader: "What Work We Do (Work Scope):",
         cardBtn: "Book Now",
         formTitle: "Service Booking Form",
         formSubtitle: "Fill details below, technician will connect with you promptly",
-        formBadge: "Visit Charge ₹500 (Adjustable into Bill)",
+        formBadge: "Visit Charge (Adjustable into Bill)",
         labelName: "Your Full Name *",
         phName: "Enter your full name",
         labelPhone: "Mobile / WhatsApp Number *",
@@ -869,19 +927,20 @@
         labelService: "Select Service *",
         labelTime: "Preferred Time Slot *",
         timeSlots: [
-          "Emergency (Within 60-90 Mins)",
+          "Emergency (Within 30-60 Mins)",
           "Morning (9:00 AM - 12:00 PM)",
-          "Afternoon (12:00 PM - 4:00 PM)",
-          "Evening (4:00 PM - 8:00 PM)"
+          "Afternoon (12:00 PM - 3:00 PM)",
+          "Evening (3:00 PM - 6:00 PM)",
+          "Night (6:00 PM - 9:00 PM)"
         ],
         labelAddress: "Site / Work Address",
         phHouse: "House / Flat / Shop Number",
         phSociety: "Building / Society / Colony Name",
         phLandmark: "Prominent Landmark (e.g. Near Water Tank / Temple) *",
         phCity: "City and Pincode",
-        rateLabel: "Starting Service Rate:",
-        rateNote: "Doorstep Visit: ₹500 (100% adjusted into final bill)",
-        submitBtn: "Confirm Booking (with GPS Location)",
+        rateLabel: "Doorstep Visit / Inspection Charge:",
+        rateNote: "✓ 100% adjustable into final repair bill",
+        submitBtn: "Confirm Booking",
         modalSuccessTitle: "Booking Confirmed Successfully!",
         modalBookingLbl: "Booking ID:",
         modalLblCust: "Customer:",
@@ -1019,7 +1078,7 @@
         whatsapp: "8839832064",
         email: "quickfix.indore@gmail.com",
         upiId: "8839832064@paytm",
-        address: "भंवरकुआं मेन रोड, इंदौर, म.प्र."
+        address: "लिम्बोदी / भंवरकुआं मेन रोड, इंदौर, म.प्र."
       },
       services: INITIAL_SERVICES
     };
@@ -1054,7 +1113,6 @@
       } catch(e) {}
       applyConfigToUI();
 
-      // Cloud Firestore me live save (All users get update instantly)
       if (db) {
         try {
           await db.collection("settings").doc("config").set(cfg);
@@ -1064,7 +1122,6 @@
       }
     }
 
-    // Listen to Real-time Updates from Cloud Firestore
     function initLiveCloudConfigSync() {
       try {
         var localCached = localStorage.getItem("qf_bilingual_config_cloud_v1");
@@ -1074,6 +1131,11 @@
         }
       } catch(e) {}
       applyConfigToUI();
+
+      // Set today's date in form
+      var today = new Date().toISOString().split("T")[0];
+      var dInput = document.getElementById("cust-date");
+      if (dInput) dInput.value = today;
 
       if (!db) return;
 
@@ -1088,7 +1150,6 @@
             applyConfigToUI();
           }
         } else {
-          // Initialize default cloud document first time
           db.collection("settings").doc("config").set(DEFAULT_CONFIG);
         }
       }, function(error) {
@@ -1111,6 +1172,7 @@
       } catch(e) {}
     }
 
+    // GPS Fix: Fast Indoor Network Lock & Silent Fallback
     function getCustomerGPSLocation() {
       return new Promise(function(resolve) {
         if (!navigator.geolocation) {
@@ -1126,10 +1188,10 @@
             });
           },
           function(err) {
-            console.warn("GPS error / permission denied:", err.message);
+            console.warn("GPS indoor fallback triggered:", err.message);
             resolve(null);
           },
-          { enableHighAccuracy: true, timeout: 7000, maximumAge: 0 }
+          { enableHighAccuracy: false, timeout: 8000, maximumAge: 60000 }
         );
       });
     }
@@ -1207,7 +1269,7 @@
       var cEmail = cfg.company.email || "quickfix.indore@gmail.com";
       var cWa = safePhone(cfg.company.whatsapp);
       var cName = cfg.company.name || "QuickFix Services";
-      var cAddr = cfg.company.address || "भंवरकुआं मेन रोड, इंदौर, म.प्र.";
+      var cAddr = cfg.company.address || "लिम्बोदी / भंवरकुआं मेन रोड, इंदौर, म.प्र.";
 
       if (document.getElementById("brand-header-name")) document.getElementById("brand-header-name").textContent = cName;
       if (document.getElementById("footer-comp-name")) document.getElementById("footer-comp-name").textContent = cName;
@@ -1225,7 +1287,7 @@
       if (document.getElementById("hero-email-display")) document.getElementById("hero-email-display").textContent = cEmail;
       if (document.getElementById("hero-email-card")) document.getElementById("hero-email-card").href = "mailto:" + cEmail;
 
-      var waMsg = encodeURIComponent("Hello " + cName + ", I need service assistance.");
+      var waMsg = encodeURIComponent("Hello " + cName + ", mujhe doorstep service ki jankari chahiye.");
       var waUrl = "https://wa.me/91" + cWa + "?text=" + waMsg;
       if (document.getElementById("hero-wa-btn")) document.getElementById("hero-wa-btn").href = waUrl;
       if (document.getElementById("floating-wa-btn")) document.getElementById("floating-wa-btn").href = waUrl;
@@ -1323,12 +1385,12 @@
       }
     }
 
-    // 5. Booking Submit (Live GPS + Cloud Push)
+    // 5. Booking Submit (Live GPS + Date/Time + Single Visit Charge)
     async function handleBookingSubmit(e) {
       e.preventDefault();
       var submitBtn = document.getElementById("submit-booking-btn");
       var originalBtnHtml = submitBtn.innerHTML;
-      submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> GPS लोकेशन व बुकिंग सेव हो रही है...';
+      submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> बुकिंग सेव हो रही है...';
       submitBtn.disabled = true;
 
       var cfg = getConfig();
@@ -1338,6 +1400,10 @@
       var found = cfg.services.find(function(s) { return s.id === sKey; });
       var sName = found ? ((currentLang === "en") ? (found.name_en || found.name_hi) : (found.name_hi || found.name_en)) : sKey;
       var sRate = found ? found.rate : 199;
+
+      var prefDate = document.getElementById("cust-date").value || new Date().toISOString().split("T")[0];
+      var prefSlot = document.getElementById("cust-time").value || "Anytime";
+      var problemText = document.getElementById("cust-problem").value.trim() || "General Inspection / Repair";
 
       var coords = await getCustomerGPSLocation();
       var mapsUrl = "";
@@ -1352,19 +1418,20 @@
 
       var booking = {
         id: bookingId,
-        date: new Date().toLocaleDateString("en-IN"),
+        date: prefDate,
         createdAt: new Date().toISOString(),
         name: document.getElementById("cust-name").value.trim(),
         phone: document.getElementById("cust-phone").value.trim(),
         serviceKey: sKey,
         service: sName,
-        time: document.getElementById("cust-time").value,
+        problem: problemText,
+        time: prefSlot,
         house: document.getElementById("cust-house").value.trim(),
         society: document.getElementById("cust-society").value.trim(),
         landmark: document.getElementById("cust-landmark").value.trim(),
         city: document.getElementById("cust-city").value.trim(),
         rate: sRate,
-        visitCharge: 500,
+        visitCharge: sRate,
         gpsLatitude: latVal,
         gpsLongitude: lngVal,
         gpsMapUrl: mapsUrl
@@ -1374,7 +1441,7 @@
         try {
           await db.collection("bookings").doc(bookingId).set(booking);
         } catch(err) {
-          console.warn("Firestore save failed, fallback to local:", err);
+          console.warn("Firestore save fallback to local:", err);
         }
       }
 
@@ -1384,14 +1451,15 @@
 
       document.getElementById("modal-booking-id").textContent = booking.id;
       document.getElementById("modal-cust-name").textContent = booking.name;
-      document.getElementById("modal-cust-service").textContent = booking.service;
+      document.getElementById("modal-cust-service").textContent = booking.service + " (" + problemText + ")";
+      document.getElementById("modal-cust-datetime").textContent = booking.date + " | " + booking.time;
       document.getElementById("modal-cust-address").textContent = booking.house + ", " + booking.society + " (Landmark: " + booking.landmark + "), " + booking.city;
 
       var gpsContainer = document.getElementById("modal-gps-link-container");
       if (mapsUrl) {
         gpsContainer.innerHTML = '<i class="fa-solid fa-location-dot text-red-500 mr-1"></i> <strong>GPS लोकेशन:</strong> <a href="' + mapsUrl + '" target="_blank" class="underline text-blue-600 font-mono">Google Map खोलें</a>';
       } else {
-        gpsContainer.innerHTML = '<span class="text-slate-400">📍 GPS लोकेशन: उपलब्ध नहीं (पते के अनुसार संपर्क करें)</span>';
+        gpsContainer.innerHTML = '<span class="text-slate-400">📍 GPS लोकेशन: पते के अनुसार संपर्क किया जाएगा</span>';
       }
 
       var upiUrl = "upi://pay?pa=" + encodeURIComponent(cfg.company.upiId) + "&pn=" + encodeURIComponent(cfg.company.name) + "&am=" + booking.rate + "&cu=INR";
@@ -1404,7 +1472,9 @@
         "Customer: " + booking.name,
         "Mobile: " + booking.phone,
         "Service: " + booking.service,
-        "Preferred Time: " + booking.time,
+        "Issue / Problem: " + problemText,
+        "📅 Date: " + booking.date,
+        "⏰ Time Slot: " + booking.time,
         "-------------------------",
         "House/Shop: " + booking.house,
         "Society/Area: " + booking.society,
@@ -1412,8 +1482,7 @@
         "City: " + booking.city,
         "📍 LIVE GPS MAP: " + (mapsUrl || "Not detected (Manual address above)"),
         "-------------------------",
-        "Starting Service Rate: ₹" + booking.rate,
-        "Doorstep Visit Charge: ₹500 (Adjustable into final bill)"
+        "💵 Doorstep Visit Charge: ₹" + booking.rate + " (Adjustable into final bill)"
       ];
       var waMsg = encodeURIComponent(lines.join("\n"));
       var waDirectLink = document.getElementById("modal-whatsapp-direct-link");
@@ -1425,6 +1494,7 @@
       submitBtn.disabled = false;
       document.getElementById("booking-success-modal").style.display = "flex";
       document.getElementById("booking-form").reset();
+      document.getElementById("cust-date").value = new Date().toISOString().split("T")[0];
     }
 
     function closeSuccessModal() {
@@ -1510,7 +1580,6 @@
       showToast("एडमिन पोर्टल से सफलतापूर्वक लॉगआउट हो गए!");
     }
 
-    // Password Recovery (Master PIN Verification - No OTP)
     function showForgotPasswordScreen() {
       document.getElementById("admin-login-screen").style.display = "none";
       document.getElementById("admin-recovery-screen").style.display = "block";
@@ -1773,9 +1842,9 @@
         }
 
         tr.innerHTML = 
-          "<td class='p-3 font-mono font-bold text-blue-700'>" + b.id + "<br><span class='text-[10px] text-slate-400 font-sans'>" + (b.date || "") + "</span></td>" +
+          "<td class='p-3 font-mono font-bold text-blue-700'>" + b.id + "<br><span class='text-[10px] text-slate-400 font-sans'>" + (b.date || "") + " (" + (b.time || "") + ")</span></td>" +
           "<td class='p-3'><strong>" + b.name + "</strong><br><span class='text-slate-500'>" + b.phone + "</span></td>" +
-          "<td class='p-3'>" + b.service + "<br><span class='text-blue-600 font-bold'>₹" + b.rate + "</span></td>" +
+          "<td class='p-3'>" + b.service + "<br><span class='text-slate-500 text-[11px] italic'>" + (b.problem || "") + "</span><br><span class='text-blue-600 font-bold'>₹" + b.rate + "</span></td>" +
           "<td class='p-3 max-w-xs'>" + (b.house || "") + ", " + (b.society || "") + "<br><span class='text-amber-700 font-bold'>Landmark: " + (b.landmark || "") + "</span><br>" + mapBadgeHtml + "</td>" +
           "<td class='p-3 text-right space-x-1 whitespace-nowrap'>" +
             "<button type='button' onclick='fillSlipFromBooking(" + i + ")' class='bg-blue-100 hover:bg-blue-200 text-blue-800 px-2.5 py-1 rounded text-[11px] font-bold cursor-pointer'>Bill / Edit</button>" +
@@ -1804,10 +1873,10 @@
         return;
       }
 
-      var rows = ["ID,Date,Name,Phone,Service,Rate,House,Society,Landmark,City,GPS_Map_URL,Latitude,Longitude"];
+      var rows = ["ID,Date,Time,Name,Phone,Service,Problem,Rate,House,Society,Landmark,City,GPS_Map_URL,Latitude,Longitude"];
       for (var i = 0; i < bks.length; i++) {
         var b = bks[i];
-        rows.push('"' + b.id + '","' + b.date + '","' + b.name + '","' + b.phone + '","' + b.service + '","' + b.rate + '","' + (b.house || "") + '","' + (b.society || "") + '","' + (b.landmark || "") + '","' + (b.city || "") + '","' + (b.gpsMapUrl || "") + '","' + (b.gpsLatitude || "") + '","' + (b.gpsLongitude || "") + '"');
+        rows.push('"' + b.id + '","' + (b.date || "") + '","' + (b.time || "") + '","' + b.name + '","' + b.phone + '","' + b.service + '","' + (b.problem || "") + '","' + b.rate + '","' + (b.house || "") + '","' + (b.society || "") + '","' + (b.landmark || "") + '","' + (b.city || "") + '","' + (b.gpsMapUrl || "") + '","' + (b.gpsLatitude || "") + '","' + (b.gpsLongitude || "") + '"');
       }
       var csvContent = rows.join("\n");
       var blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
@@ -1829,7 +1898,7 @@
       document.getElementById("slip-advance").value = "0";
 
       currentSlipRows = [
-        { desc: "डोरस्टेप विजिट व डायग्नोसिस चार्ज (Adjustable)", qty: 1, rate: 500 }
+        { desc: "डोरस्टेप सर्विस व डायग्नोसिस चार्ज", qty: 1, rate: 199 }
       ];
       renderSlipRows();
     }
@@ -1841,23 +1910,24 @@
       switchAdminTab("slip");
 
       document.getElementById("slip-no-input").value = b.id || ("QF-" + Math.floor(1000 + Math.random() * 9000));
-      document.getElementById("slip-date").value = new Date().toISOString().split("T")[0];
+      document.getElementById("slip-date").value = b.date || new Date().toISOString().split("T")[0];
       document.getElementById("slip-client-name").value = b.name || "";
       document.getElementById("slip-client-phone").value = b.phone || "";
       document.getElementById("slip-client-addr").value = (b.house || "") + ", " + (b.society || "") + ", Landmark: " + (b.landmark || "") + ", " + (b.city || "");
       document.getElementById("slip-advance").value = "0";
 
       currentSlipRows = [
-        { desc: b.service || "सर्विस चार्ज", qty: 1, rate: Number(b.rate) || 199 }
+        { desc: (b.service || "सर्विस चार्ज") + (b.problem ? " (" + b.problem + ")" : ""), qty: 1, rate: Number(b.rate) || 199 }
       ];
       renderSlipRows();
     }
 
     function addSlipRow() {
-      currentSlipRows.push({ desc: "स्पेयर पार्ट्स / अतिरिक्त लेबर", qty: 1, rate: 0 });
+      currentSlipRows.push({ desc: "स्पेयर पार्ट्स / अतिरिक्त काम", qty: 1, rate: 0 });
       renderSlipRows();
     }
 
+    // Live Row-Calculation Fix
     function renderSlipRows() {
       var tbody = document.getElementById("slip-items-body");
       if (!tbody) return;
@@ -1865,12 +1935,13 @@
 
       for (var i = 0; i < currentSlipRows.length; i++) {
         var r = currentSlipRows[i];
+        var rowTotal = ((r.qty || 1) * (r.rate || 0));
         var tr = document.createElement("tr");
         tr.innerHTML = 
           "<td class='p-1.5'><input type='text' value='" + (r.desc || "") + "' oninput='updateSlipDesc(" + i + ", this.value)' class='w-full p-1 border rounded text-xs'></td>" +
           "<td class='p-1.5'><input type='number' value='" + (r.qty || 1) + "' min='1' oninput='updateSlipQty(" + i + ", this.value)' class='w-full p-1 border rounded text-xs text-center font-bold'></td>" +
           "<td class='p-1.5'><input type='number' value='" + (r.rate || 0) + "' min='0' oninput='updateSlipRate(" + i + ", this.value)' class='w-full p-1 border rounded text-xs text-right font-bold'></td>" +
-          "<td class='p-1.5 text-right font-black text-slate-800'>₹" + ((r.qty || 1) * (r.rate || 0)) + "</td>" +
+          "<td class='p-1.5 text-right font-black text-slate-800' id='slip-row-total-" + i + "'>₹" + rowTotal + "</td>" +
           "<td class='p-1.5 text-center no-print'><button type='button' onclick='removeSlipRow(" + i + ")' class='text-red-500 hover:text-red-700 font-bold cursor-pointer text-sm'>&times;</button></td>";
         tbody.appendChild(tr);
       }
@@ -1885,6 +1956,9 @@
       if (currentSlipRows[idx]) {
         var num = parseInt(val, 10);
         currentSlipRows[idx].qty = isNaN(num) || num < 1 ? 1 : num;
+        var rTotal = (currentSlipRows[idx].qty * (currentSlipRows[idx].rate || 0));
+        var el = document.getElementById("slip-row-total-" + idx);
+        if (el) el.textContent = "₹" + rTotal;
         calcSlipTotals();
       }
     }
@@ -1893,6 +1967,9 @@
       if (currentSlipRows[idx]) {
         var num = parseFloat(val);
         currentSlipRows[idx].rate = isNaN(num) || num < 0 ? 0 : num;
+        var rTotal = ((currentSlipRows[idx].qty || 1) * currentSlipRows[idx].rate);
+        var el = document.getElementById("slip-row-total-" + idx);
+        if (el) el.textContent = "₹" + rTotal;
         calcSlipTotals();
       }
     }
@@ -1949,7 +2026,7 @@
         "*कुल बाकी भुगतान / Balance Due: " + total + "*",
         "UPI पेमेंट ID: " + cfg.company.upiId,
         "",
-        "काम करवाने के लिए धन्यवाद!"
+        "काम करवाने के लिए धन्यवाद! (QuickFix Services)"
       ];
 
       var waMsg = encodeURIComponent(lines.join("\n"));
