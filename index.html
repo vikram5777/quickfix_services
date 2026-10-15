@@ -251,7 +251,13 @@
           </div>
           <div>
             <label id="t-label-time" class="block text-xs font-bold text-slate-700 uppercase mb-1">समय स्लॉट चुनें *</label>
-            <select id="cust-time" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-600 focus:outline-none"></select>
+            <select id="cust-time" class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-600 focus:outline-none">
+              <option value="तुरंत चाहिए (इमरजेंसी 30-60 मिनट)">तुरंत चाहिए (इमरजेंसी 30-60 मिनट)</option>
+              <option value="सुबह (9:00 AM - 12:00 PM)">सुबह (9:00 AM - 12:00 PM)</option>
+              <option value="दोपहर (12:00 PM - 3:00 PM)">दोपहर (12:00 PM - 3:00 PM)</option>
+              <option value="शाम (3:00 PM - 6:00 PM)">शाम (3:00 PM - 6:00 PM)</option>
+              <option value="रात (6:00 PM - 9:00 PM)">रात (6:00 PM - 9:00 PM)</option>
+            </select>
           </div>
         </div>
 
@@ -857,7 +863,7 @@
         chatWaBtn: "व्हाट्सएप पर बात करें",
         rulesTitle: "सेवा से जुड़े स्पष्ट नियम",
         rule1: "<strong>डोरस्टेप विजिट चार्ज:</strong> सर्विस के अनुसार निर्धारित दर ही विजिट चार्ज है (काम करवाने पर फाइनल बिल में पूरी तरह एडजस्ट)।",
-        rule2: "<strong>सामने लाइव टेस्टिंग:</strong> उपकरण चालू कराकर चेक कराने के बाद ही बिलिंग।",
+        rule2: "<strong>सामने लाइव टेस्टिंग:</strong> उपकरण चालू कराकर आपके सामने चेक कराने के बाद ही बिलिंग।",
         rule3: "<strong>डिजिटल सेवा रसीद:</strong> बदले गए ओरिजिनल स्पेयर पार्ट्स और लेबर का पारदर्शी हिसाब।",
         servicesTitle: "हमारी सेवाएं और क्या-क्या काम करते हैं",
         servicesSubtitle: "प्रत्येक सेवा के तहत होने वाले सभी कार्यों का विवरण देखें व कार्ड पर क्लिक करके बुक करें",
@@ -1258,7 +1264,9 @@
         optTime.textContent = t.timeSlots[p];
         selTime.appendChild(optTime);
       }
-      if (prevTime) selTime.value = prevTime;
+      if (prevTime) {
+        selTime.value = prevTime;
+      }
 
       applyConfigToUI();
     }
@@ -2065,8 +2073,9 @@
       showToast("ऑफिस संपर्क Cloud पर सुरक्षित सेव हुआ और सभी कस्टमर्स के लिए लाइव हो गया!");
     }
 
-    // App Initialization with Real-time Sync
+    // App Initialization with Real-time Sync & Instant Slot Fix
     window.addEventListener("DOMContentLoaded", function() {
+      applyLanguageToUI(); // Page load hote hi bina 1ms ke delay ke UI & slots populate honge
       initLiveCloudConfigSync();
     });
   </script>
